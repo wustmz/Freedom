@@ -44,8 +44,6 @@ public class AppTest {
     public void testAdd (){
         FundTx tx = new FundTx();
         tx.setCreatedTime(System.currentTimeMillis());
-        FundTx add = fundTxService.save(tx);
-        System.out.println(new Gson().toJson(add));
     }
 
     @Test

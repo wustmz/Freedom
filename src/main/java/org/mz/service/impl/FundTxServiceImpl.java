@@ -20,8 +20,8 @@ public class FundTxServiceImpl implements FundTxService {
     }
 
     @Override
-    public FundTx save(FundTx tx) {
-        return fundTxRepository.save(tx);
+    public void save(FundTx tx) {
+        fundTxRepository.save(tx);
     }
 
     @Override

@@ -16,10 +16,23 @@ public class IndexController {
     @Autowired
     private FundTxService fundTxService;
 
-    @GetMapping("/t")
-    @ResponseBody
-    public String tt() {
+    /**
+     * 交易列表
+     * @return
+     */
+    @GetMapping("/txList")
+    public String txList() {
         List<FundTx> all = fundTxService.findAll();
-        return new Gson().toJson(all);
+        return "txList";
+    }
+
+    /**
+     * 基金列表
+     * @return
+     */
+    @GetMapping("/fundList")
+    public String fundList() {
+        List<FundTx> all = fundTxService.findAll();
+        return "fundList";
     }
 }

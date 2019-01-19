@@ -9,7 +9,7 @@ public interface FundTxService {
 
     void deleteById(int id);
 
-    FundTx save(FundTx tx);
+    void save(FundTx tx);
 
     FundTx findById(int id);
 
