@@ -1,3 +1,8 @@
+server:
+  port: 10086
 spring:
-  profiles:
-    active: dev
+  datasource:
+    url: jdbc:mysql://47.107.176.7:3306/guns?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
