@@ -24,13 +24,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="order : ${orders}">
-            <td th:text="${order.id}"></td>
-            <td th:text="${order.accountId}"></td>
-            <td th:text="${order.number}"></td>
-            <td th:text="${order.tradeType}"></td>
-            <td th:text="${order.type}"></td>
-            <td th:text="${order.entryPrice}"></td>
+        <tr th:each="fund : ${list}">
+            <td th:text="${fund.id}"></td>
+            <td th:text="${fund.name}"></td>
+            <td th:text="${fund.code}"></td>
+            <td th:text="${fund.amount}"></td>
+            <td th:text="${fund.rate}"></td>
+            <td><a class="btn btn-info" th:href="@{/fund/info/{id}(id=${fund.id})}">查看列表</a></td>
         </tr>
         </tbody>
     </table>
