@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.mz</groupId>
-    <artifactId>freedomofwealth</artifactId>
+    <artifactId>fow</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>freedomofwealth</name>
     <description>Demo project for Spring Boot</description>
