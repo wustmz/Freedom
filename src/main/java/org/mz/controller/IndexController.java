@@ -1,6 +1,7 @@
 package org.mz.controller;
 
 import org.decampo.xirr.Transaction;
+import org.mz.common.DateTimeUtils;
 import org.mz.common.XirrUtils;
 import org.mz.entity.Tx;
 import org.mz.service.TxService;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +27,25 @@ public class IndexController {
         List<Transaction> xirrList = new ArrayList<>();
         Transaction transaction;
         for (Tx tx : list) {
-            transaction = new Transaction(tx.getAmount().doubleValue(), tx.getCreatedTime());
+            transaction = new Transaction(negate(tx.getAmount().doubleValue()), tx.getCreatedTime());
             xirrList.add(transaction);
         }
+        String now = DateTimeUtils.getSimpleTime(System.currentTimeMillis());
+        xirrList.add(new Transaction(18900, now));
         double xirr = XirrUtils.getXirr(xirrList);
-        model.addAttribute("xirr", xirr);
+        model.addAttribute("xirr", getRate(xirr));
         return "index";
+    }
+
+    private String getRate(double xirr) {
+        NumberFormat nt = NumberFormat.getPercentInstance();
+        //设置百分数精确度2即保留两位小数
+        nt.setMinimumFractionDigits(2);
+        return nt.format(xirr);
+    }
+
+    private double negate(double amount) {
+        return -amount;
     }
 
     @RequestMapping("/list")
