@@ -1,8 +1,8 @@
 package org.mz;
 
 import com.google.gson.Gson;
+
 import org.decampo.xirr.Transaction;
-import org.decampo.xirr.Xirr;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mz.common.DateTimeUtils;
@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -43,7 +41,7 @@ public class AppTest {
     @Test
     public void testAdd (){
         FundTx tx = new FundTx();
-        tx.setCreatedTime(System.currentTimeMillis());
+        tx.setCreatedTime("");
     }
 
     @Test

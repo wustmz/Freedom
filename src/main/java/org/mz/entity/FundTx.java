@@ -13,12 +13,14 @@ import lombok.Data;
 public class FundTx {
     @Id
     private int id;
+    @Column(name = "amount")
+    private BigDecimal amount;
     @Column(name = "netValue")
     private BigDecimal netValue;
     @Column(name = "createdTime")
-    private long createdTime;
+    private String createdTime;
     @Column(name = "updateTime")
-    private long updateTime;
+    private String updateTime;
     @Column(name = "name")
     private String name;
     @Column(name = "code")

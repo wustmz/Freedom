@@ -21,28 +21,19 @@
             <th>交易金额</th>
             <th>交易净值</th>
             <th>交易时间</th>
-            <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="tx : ${list}">
+        <tr>
             <td th:text="${tx.id}"></td>
             <td th:text="${tx.name}"></td>
             <td th:text="${tx.code}"></td>
             <td th:text="${tx.amount}"></td>
             <td th:text="${tx.netValue}"></td>
-            <td th:text="${tx.createdTime}"></td>
-            <td><a class="btn btn-info" th:href="@{/tx/info/{id}(id=${tx.id})}">查看</a></td>
-            <td><a class="btn btn-primary" th:href="@{/tx/edit/{id}(id=${tx.id})}">修改</a></td>
-            <td><a class="btn btn-danger" th:href="@{/tx/delById/{id}(id=${tx.id})}">删除</a></td>
+            <td th:text="${#dates.format(tx.createdTime,'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
         </tbody>
     </table>
-    <div class="form-group">
-        <div class="col-sm-2 control-label">
-            <a th:href="@{/tx/toAdd}" class="btn btn-info">增加</a>
-        </div>
-    </div>
 </div>
 
 </body>

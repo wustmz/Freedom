@@ -15,6 +15,11 @@ public class IndexController {
     @Autowired
     private FundTxService fundTxService;
 
+    @RequestMapping("/")
+    public String index() {
+        return "redirect:/tx/list";
+    }
+
     /**
      * 交易列表
      *
@@ -28,22 +33,53 @@ public class IndexController {
     }
 
 
+    /**
+     * 查看详情
+     *
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/tx/info/{id}")
     public String fundInfo(@PathVariable int id, Model model) {
         FundTx tx = fundTxService.findById(id);
         model.addAttribute("tx", tx);
-        return "txList";
+        return "txInfo";
     }
 
-    @PostMapping("/tx/save")
-    public String saveFund(@RequestBody FundTx tx) {
+    /**
+     * 保存
+     *
+     * @param tx
+     * @return
+     */
+    @RequestMapping("/tx/save")
+    public String saveFund(FundTx tx) {
         fundTxService.save(tx);
-        return "txList";
+        return "redirect:/tx/list";
     }
 
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
     @PostMapping("/tx/delById/{id}")
     public String delById(@PathVariable int id) {
         fundTxService.deleteById(id);
         return "txList";
+    }
+
+    @PostMapping("/tx/edit/{id}")
+    public String editById(@PathVariable int id, Model model) {
+        FundTx tx = fundTxService.findById(id);
+        model.addAttribute("tx", tx);
+        return "txEdit";
+    }
+
+    @GetMapping("/tx/toAdd")
+    public String add() {
+        return "txAdd";
     }
 }
