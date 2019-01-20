@@ -39,15 +39,20 @@ public class AppTest {
     }
 
     @Test
-    public void testAdd (){
+    public void testAdd() {
         FundTx tx = new FundTx();
         tx.setCreatedTime("");
     }
 
     @Test
-    public void testFindAll (){
+    public void testFindAll() {
         List<FundTx> all = fundTxService.findAll();
         System.out.println(new Gson().toJson(all));
+    }
+
+    @Test
+    public void test1() {
+        System.out.println(new Gson().toJson(new FundTx()));
     }
 
 }

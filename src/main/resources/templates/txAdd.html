@@ -13,7 +13,7 @@
     <form th:action="@{/tx/save}" method="post" class="form-horizontal">
 
         <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">基金名称</label>
+            <label for="name" class="col-sm-2 control-label">基金名称:</label>
             <div class="col-xs-4">
                 <input type="text" class="form-control" name="name" id="name"/>
             </div>
@@ -62,6 +62,7 @@
 <script type="text/javascript">
     $('#createdTime').datetimepicker({
         format: 'yyyy-mm-dd',
+        minView: "month",//设置只显示到月份
         autoclose: true, //  true:选择时间后窗口自动关闭
         todayBtn: true, // 如果此值为true 或 "linked"，则在日期时间选择器组件的底部显示一个 "Today" 按钮用以选择当前日期。
     });

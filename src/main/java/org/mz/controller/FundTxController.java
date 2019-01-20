@@ -1,7 +1,7 @@
 package org.mz.controller;
 
-import org.mz.entity.Tx;
-import org.mz.service.TxService;
+import org.mz.entity.FundTx;
+import org.mz.service.FundTxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,23 +10,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+/**
+ * @author 86501
+ * @Description：
+ * @date 2019/1/20
+ * @time 13:04
+ */
 @Controller
-public class IndexController {
-
+@RequestMapping("/tx")
+public class FundTxController {
     @Autowired
-    private TxService txService;
+    private FundTxService fundTxService;
 
-    @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
-
+    /**
+     * 交易列表
+     *
+     * @return
+     */
     @RequestMapping("/list")
-    public String list(Model model) {
-        List<Tx> list = txService.findAll();
+    public String txList(Model model) {
+        List<FundTx> list = fundTxService.findAll();
         model.addAttribute("list", list);
-        return "list";
+        return "txList";
     }
+
 
     /**
      * 查看详情
@@ -36,10 +43,10 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/info/{id}")
-    public String info(@PathVariable int id, Model model) {
-        Tx tx = txService.findById(id);
+    public String fundInfo(@PathVariable int id, Model model) {
+        FundTx tx = fundTxService.findById(id);
         model.addAttribute("tx", tx);
-        return "info";
+        return "txInfo";
     }
 
     /**
@@ -49,9 +56,9 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/save")
-    public String saveFund(Tx tx) {
-        txService.save(tx);
-        return "redirect:/list";
+    public String saveFund(FundTx tx) {
+        fundTxService.save(tx);
+        return "redirect:/tx/list";
     }
 
     /**
@@ -62,19 +69,19 @@ public class IndexController {
      */
     @RequestMapping("/delById/{id}")
     public String delById(@PathVariable int id) {
-        txService.deleteById(id);
-        return "list";
+        fundTxService.deleteById(id);
+        return "txList";
     }
 
     @RequestMapping("/edit/{id}")
     public String editById(@PathVariable int id, Model model) {
-        Tx tx = txService.findById(id);
+        FundTx tx = fundTxService.findById(id);
         model.addAttribute("tx", tx);
-        return "edit";
+        return "txEdit";
     }
 
     @RequestMapping("/toAdd")
     public String add() {
-        return "add";
+        return "txAdd";
     }
 }

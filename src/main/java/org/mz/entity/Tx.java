@@ -8,22 +8,19 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
+/**
+ * @author 86501
+ * @Description：
+ * @date 2019/1/20
+ * @time 12:47
+ */
+@Entity(name = "tx")
 @Data
-@Entity
-public class FundTx {
-
+public class Tx {
     @Id
     private int id;
     @Column(name = "amount")
     private BigDecimal amount;
     @Column(name = "createdTime")
     private String createdTime;
-    @Column(name = "netValue")
-    private BigDecimal netValue;
-    @Column(name = "updateTime")
-    private String updateTime;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "code")
-    private String code;
 }

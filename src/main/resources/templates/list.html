@@ -11,26 +11,20 @@
 <div class="container-fluid">
     <table class="table table-striped table-bordered">
         <legend>
-            <strong>基金交易列表</strong>
+            <strong>且慢投资列表</strong>
         </legend>
         <thead>
         <tr>
-            <th>交易Id</th>
-            <th>基金名称</th>
-            <th>基金代码</th>
-            <th>交易金额</th>
-            <th>交易净值</th>
-            <th>交易时间</th>
+            <th>Id</th>
+            <th>投资金额</th>
+            <th>投资时间</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="tx : ${list}">
             <td th:text="${tx.id}"></td>
-            <td th:text="${tx.name}"></td>
-            <td th:text="${tx.code}"></td>
             <td th:text="${tx.amount}"></td>
-            <td th:text="${tx.netValue}"></td>
             <td th:text="${tx.createdTime}"></td>
             <td>
                 <a class="btn btn-info" th:href="@{/tx/info/{id}(id=${tx.id})}">查看</a>
@@ -42,7 +36,7 @@
     </table>
     <div class="form-group">
         <div class="col-sm-2 control-label">
-            <a th:href="@{/tx/toAdd}" class="btn btn-info">增加</a>
+            <a th:href="@{/toAdd}" class="btn btn-info">增加</a>
         </div>
     </div>
 </div>
