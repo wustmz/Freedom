@@ -1,5 +1,7 @@
 package org.mz.controller;
 
+import org.decampo.xirr.Transaction;
+import org.mz.common.XirrUtils;
 import org.mz.entity.Tx;
 import org.mz.service.TxService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,7 +20,16 @@ public class IndexController {
     private TxService txService;
 
     @RequestMapping("/")
-    public String index() {
+    public String index(Model model) {
+        List<Tx> list = txService.findAll();
+        List<Transaction> xirrList = new ArrayList<>();
+        Transaction transaction;
+        for (Tx tx : list) {
+            transaction = new Transaction(tx.getAmount().doubleValue(), tx.getCreatedTime());
+            xirrList.add(transaction);
+        }
+        double xirr = XirrUtils.getXirr(xirrList);
+        model.addAttribute("xirr", xirr);
         return "index";
     }
 
