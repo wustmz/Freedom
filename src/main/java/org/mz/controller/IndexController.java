@@ -17,7 +17,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index() {
-        return "redirect:/tx/list";
+        return "index";
     }
 
     /**
@@ -25,7 +25,7 @@ public class IndexController {
      *
      * @return
      */
-    @GetMapping("/tx/list")
+    @RequestMapping("/tx/list")
     public String txList(Model model) {
         List<FundTx> list = fundTxService.findAll();
         model.addAttribute("list", list);
@@ -40,7 +40,7 @@ public class IndexController {
      * @param model
      * @return
      */
-    @GetMapping("/tx/info/{id}")
+    @RequestMapping("/tx/info/{id}")
     public String fundInfo(@PathVariable int id, Model model) {
         FundTx tx = fundTxService.findById(id);
         model.addAttribute("tx", tx);
@@ -65,20 +65,20 @@ public class IndexController {
      * @param id
      * @return
      */
-    @PostMapping("/tx/delById/{id}")
+    @RequestMapping("/tx/delById/{id}")
     public String delById(@PathVariable int id) {
         fundTxService.deleteById(id);
         return "txList";
     }
 
-    @PostMapping("/tx/edit/{id}")
+    @RequestMapping("/tx/edit/{id}")
     public String editById(@PathVariable int id, Model model) {
         FundTx tx = fundTxService.findById(id);
         model.addAttribute("tx", tx);
         return "txEdit";
     }
 
-    @GetMapping("/tx/toAdd")
+    @RequestMapping("/tx/toAdd")
     public String add() {
         return "txAdd";
     }

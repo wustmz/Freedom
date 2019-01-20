@@ -30,7 +30,7 @@
             <td th:text="${tx.code}"></td>
             <td th:text="${tx.amount}"></td>
             <td th:text="${tx.netValue}"></td>
-            <td th:text="${#dates.format(tx.createdTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${tx.createdTime}"></td>
         </tr>
         </tbody>
     </table>

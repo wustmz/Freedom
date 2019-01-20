@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <legend>
             <strong>交易列表</strong>
         </legend>
@@ -32,9 +32,11 @@
             <td th:text="${tx.amount}"></td>
             <td th:text="${tx.netValue}"></td>
             <td th:text="${tx.createdTime}"></td>
-            <td><a class="btn btn-info" th:href="@{/tx/info/{id}(id=${tx.id})}">查看</a></td>
-            <td><a class="btn btn-primary" th:href="@{/tx/edit/{id}(id=${tx.id})}">修改</a></td>
-            <td><a class="btn btn-danger" th:href="@{/tx/delById/{id}(id=${tx.id})}">删除</a></td>
+            <td>
+                <a class="btn btn-info" th:href="@{/tx/info/{id}(id=${tx.id})}">查看</a>
+                <a class="btn btn-primary" th:href="@{/tx/edit/{id}(id=${tx.id})}">修改</a>
+                <a class="btn btn-danger" th:href="@{/tx/delById/{id}(id=${tx.id})}">删除</a>
+            </td>
         </tr>
         </tbody>
     </table>
