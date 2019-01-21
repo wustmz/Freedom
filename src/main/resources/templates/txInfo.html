@@ -18,8 +18,9 @@
             <th>交易Id</th>
             <th>基金名称</th>
             <th>基金代码</th>
-            <th>交易金额</th>
-            <th>交易净值</th>
+            <th>金额</th>
+            <th>成交净值</th>
+            <th>份额</th>
             <th>交易时间</th>
         </tr>
         </thead>
@@ -30,6 +31,7 @@
             <td th:text="${tx.code}"></td>
             <td th:text="${tx.amount}"></td>
             <td th:text="${tx.netValue}"></td>
+            <td th:text="${tx.share}"></td>
             <td th:text="${tx.createdTime}"></td>
         </tr>
         </tbody>

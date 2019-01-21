@@ -20,6 +20,8 @@ public class FundTx {
     private String createdTime;
     @Column(name = "netValue")
     private BigDecimal netValue;
+    @Column(name = "share")
+    private BigDecimal share;
     @Column(name = "updateTime")
     private String updateTime;
     @Column(name = "name")
