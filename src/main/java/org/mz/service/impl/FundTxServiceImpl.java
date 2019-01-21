@@ -39,4 +39,8 @@ public class FundTxServiceImpl implements FundTxService {
         return list;
     }
 
+    @Override
+    public List<FundTx> findFundTxByCode(String code) {
+        return fundTxRepository.findFundTxByCode(code);
+    }
 }

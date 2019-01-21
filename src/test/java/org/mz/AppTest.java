@@ -6,6 +6,7 @@ import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mz.common.DateTimeUtils;
+import org.mz.common.GsonUtil;
 import org.mz.common.XirrUtils;
 import org.mz.entity.FundTx;
 import org.mz.entity.Tx;
@@ -71,8 +72,8 @@ public class AppTest {
 
     @Test
     public void testFindAll() {
-        List<FundTx> all = fundTxService.findAll();
-        System.out.println(new Gson().toJson(all));
+        List<FundTx> all = fundTxService.findFundTxByCode("000614");
+        System.out.println(GsonUtil.toJson(all));
     }
 
     @Test

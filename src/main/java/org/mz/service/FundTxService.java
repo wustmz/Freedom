@@ -15,4 +15,6 @@ public interface FundTxService {
 
     List<FundTx> findAll();
 
+    List<FundTx> findFundTxByCode(String code);
+
 }
