@@ -2,10 +2,10 @@ package org.mz.common;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 86501
@@ -14,7 +14,7 @@ import java.net.URLEncoder;
  * @time 14:05
  */
 public class FundUtil {
-    public static String sendGet(String url, String charset) {
+    private static String sendGet(String url, String charset) {
         String result = "";
         BufferedReader in = null;
         try {
@@ -52,31 +52,18 @@ public class FundUtil {
         return result;
     }
 
-    public static String getUTF8XMLString(String xml) {
-        // A StringBuffer Object
-        StringBuffer sb = new StringBuffer();
-        sb.append(xml);
-        String xmString = "";
-        String xmlUTF8 = "";
-        try {
-            xmString = new String(sb.toString().getBytes("UTF-8"));
-            xmlUTF8 = URLEncoder.encode(xmString, "UTF-8");
-            System.out.println("utf-8 编码：" + xmlUTF8);
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // return to String Formed
-        return xmlUTF8;
+    public static List<String> getCurrentNetValue(String code) {
+        String url = "http://hq.sinajs.cn/list=f_" + code;
+        String charSet = "UTF-8";
+        String[] strings = sendGet(url, charSet).split(",");
+        List<String> list = new ArrayList<>();
+        list.add(strings[1]);
+        list.add(strings[4]);
+        return list;
     }
 
     public static void main(String[] args) throws Exception {
-        String url = "http://hq.sinajs.cn/list=f_000614";
-        String charSet = "UTF-8";
-        String s = sendGet(url, charSet);
-        String[] split = s.split(",");
-        for (String s1 : split) {
-            System.out.println(split[1] + "-" + split[4]);
-        }
+        List<String> netValue = getCurrentNetValue("000614");
+        System.out.println(GsonUtil.toJson(netValue));
     }
 }

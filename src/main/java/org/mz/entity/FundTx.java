@@ -1,6 +1,5 @@
 package org.mz.entity;
 
-import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,13 +14,13 @@ public class FundTx {
     @Id
     private int id;
     @Column(name = "amount")
-    private BigDecimal amount;
+    private double amount;
     @Column(name = "createdTime")
     private String createdTime;
     @Column(name = "netValue")
-    private BigDecimal netValue;
+    private double netValue;
     @Column(name = "share")
-    private BigDecimal share;
+    private double share;
     @Column(name = "updateTime")
     private String updateTime;
     @Column(name = "name")

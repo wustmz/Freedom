@@ -1,11 +1,10 @@
 package org.mz;
 
-import com.google.gson.Gson;
-
 import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mz.common.DateTimeUtils;
+import org.mz.common.FundUtil;
 import org.mz.common.GsonUtil;
 import org.mz.common.XirrUtils;
 import org.mz.entity.FundTx;
@@ -73,12 +72,22 @@ public class AppTest {
     @Test
     public void testFindAll() {
         List<FundTx> all = fundTxService.findFundTxByCode("000614");
-        System.out.println(GsonUtil.toJson(all));
+        //份额*最新净值=当前价值；所有基金当前价值相加等于总价值
+        double total = 0;
+        for (FundTx tx : all) {
+            List<String> list = FundUtil.getCurrentNetValue(tx.getCode());
+            Double netValue = Double.valueOf(list.get(0));
+            double share = tx.getShare();
+            total += netValue * share;
+        }
+        System.out.println(GsonUtil.toJson(total));
     }
 
     @Test
     public void test1() {
-        System.out.println(new Gson().toJson(new FundTx()));
+        double v = 1.0089;
+        double v1 = 1.8675;
+        System.out.println(v * v1);
     }
 
 }

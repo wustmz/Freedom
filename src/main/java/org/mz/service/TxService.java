@@ -1,18 +1,35 @@
 package org.mz.service;
 
+import org.mz.dao.TxRepository;
 import org.mz.entity.Tx;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+public class TxService {
 
-public interface TxService {
+    @Autowired
+    private TxRepository txRepository;
 
-    void deleteById(int id);
+    public void deleteById(int id) {
+        txRepository.deleteById(id);
+    }
 
-    void save(Tx tx);
 
-    Tx findById(int id);
+    public void save(Tx tx) {
+        txRepository.save(tx);
+    }
 
-    List<Tx> findAll();
+
+    public Tx findById(int id) {
+        return txRepository.findById(id).get();
+    }
+
+
+    public List<Tx> findAll() {
+        return txRepository.findAll();
+    }
 
 }

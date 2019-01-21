@@ -1,20 +1,42 @@
 package org.mz.service;
 
+import org.mz.dao.FundTxRepository;
 import org.mz.entity.FundTx;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Service
+public class FundTxService {
 
-public interface FundTxService {
+    @Autowired
+    private FundTxRepository fundTxRepository;
 
-    void deleteById(int id);
+    public void deleteById(int id) {
+        fundTxRepository.deleteById(id);
+    }
 
-    void save(FundTx tx);
+    public void save(FundTx tx) {
+        fundTxRepository.save(tx);
+    }
 
-    FundTx findById(int id);
+    public FundTx findById(int id) {
+        return fundTxRepository.findById(id).get();
+    }
 
-    List<FundTx> findAll();
+    public List<FundTx> findAll() {
+        Iterable<FundTx> all = fundTxRepository.findAll();
+        List<FundTx> list = new ArrayList<>();
+        for (FundTx fundTx : all) {
+            list.add(fundTx);
+        }
+        return list;
+    }
 
-    List<FundTx> findFundTxByCode(String code);
+    public List<FundTx> findFundTxByCode(String code) {
+        return fundTxRepository.findFundTxByCode(code);
+    }
 
 }
