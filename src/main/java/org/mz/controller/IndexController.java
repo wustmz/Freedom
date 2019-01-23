@@ -56,6 +56,12 @@ public class IndexController {
             page.put("total", MathUtil.getDouble2(total));
             page.put("ratio", MathUtil.getRate(total / amount));
             page.put("xirr", info.get("xirr"));
+            String xirr = (String) info.get("xirr");
+            if (!xirr.contains("-")) {
+                page.put("color", "red");
+            } else {
+                page.put("color", "green");
+            }
             pages.add(page);
         }
         model.addAttribute("pages", pages);

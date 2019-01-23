@@ -27,12 +27,12 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h1>实现自由之路！</h1>
+        <h1>财富自由之路！</h1>
         <p>我在且慢总计投入了</p>
         <p th:text="${invest}">
         <p>现在总价值为:</p>
         <p th:text="${amount}"></p>
-        </p>年化收益率为:</p>
+        <p>年化收益率为:</p>
         <p th:text="${totalXirr}"></p>
     </div>
 
@@ -56,7 +56,7 @@
             <td th:text="${p.get('name')}"></td>
             <td th:text="${p.get('total')}"></td>
             <td th:text="${p.get('ratio')}"></td>
-            <td th:text="${p.get('xirr')}"></td>
+            <td th:text="${p.get('xirr')}" th:bgcolor="${p.get('color')}"></td>
             <td>
                 <a class="btn btn-info" th:href="@{/fundList/{code}(code=${p.get('code')})}">查看</a>
             </td>
