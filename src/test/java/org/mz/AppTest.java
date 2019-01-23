@@ -56,60 +56,55 @@ public class AppTest {
      */
     @Test
     public void testRate() {
-        List<Transaction> xirrList = new ArrayList<>();
-        Transaction transaction;
-        List<FundTx> list = fundTxService.findAll();
-        double total = 0;
-        double money = 0;
-        for (FundTx tx : list) {
-            transaction = new Transaction(MathUtil.negate(tx.getAmount()), tx.getCreatedTime());
-            xirrList.add(transaction);
-            double netValue = FundUtil.getCurrentNetValue(tx.getCode());
-            double share = tx.getShare();
-            total += netValue * share;
-            money += tx.getAmount();
-        }
-        xirrList.add(new Transaction(total, DateTimeUtils.getSimpleTime(System.currentTimeMillis())));
-        double xirr = XirrUtils.getXirr(xirrList);
-        System.out.println("money===" + money);
-        System.out.println("total===" + total);
-        System.out.println("xirr===" + MathUtil.getRate(xirr));
+        List<FundTx> all = fundTxService.findAll();
+        Map<String, Object> xirrInfo = XirrUtils.getXirrInfo(all);
+        System.out.println("money===" + xirrInfo.get("invest"));
+        System.out.println("total===" + xirrInfo.get("total"));
+        System.out.println("xirr===" + xirrInfo.get("xirr"));
     }
 
+    /**
+     * 总览记录
+     */
     @Test
     public void test1() {
         List<FundTx> all = fundTxService.findAll();
+        Map<String, Object> xirrInfo = XirrUtils.getXirrInfo(all);
+        double amount = (double) xirrInfo.get("total");
+        System.out.println("money===" + xirrInfo.get("invest"));
+        System.out.println("total===" + MathUtil.getDouble2(amount));
+        System.out.println("xirr===" + xirrInfo.get("xirr"));
+
         Map<String, Object> map = new HashMap<>();
-        double amount = 0;
-        for (FundTx tx : all) {
-            map.put(tx.getCode(), tx.getName());
-            double netValue = FundUtil.getCurrentNetValue(tx.getCode());
-            double share = tx.getShare();
-            amount += netValue * share;
+        for (FundTx fundTx : all) {
+            map.put(fundTx.getCode(), fundTx.getName());
         }
 
-
+        //基金信息汇总
+        List<Map<String, Object>> pages = new ArrayList<>();
+        Map<String, Object> page;
         for (String s : map.keySet()) {
+            page = new HashMap<>();
             List<FundTx> txList = fundTxService.findFundTxByCode(s);
-            List<Transaction> xirrList = new ArrayList<>();
-            Transaction tx;
-            double total = 0;
-            for (FundTx fundTx : txList) {
-                tx = new Transaction(MathUtil.negate(fundTx.getAmount()), fundTx.getCreatedTime());
-                xirrList.add(tx);
-                double netValue = FundUtil.getCurrentNetValue(fundTx.getCode());
-                double share = fundTx.getShare();
-                total += netValue * share;
-            }
-            xirrList.add(new Transaction(total, DateTimeUtils.getSimpleTime(System.currentTimeMillis())));
-            double xirr = XirrUtils.getXirr(xirrList);
-            System.out.println(
-                    "name===" + map.get(s) + ";"
-                            + "code===" + s + ";"
-                            + "total===" + String.format("%.2f", total) + ";"
-                            + "ratio===" + MathUtil.getRate(total / amount) + ";"
-                            + "xirr===" + MathUtil.getRate(xirr));
+            Map<String, Object> info = XirrUtils.getXirrInfo(txList);
+            page.put("code", s);
+            page.put("name", map.get(s));
+            double total = (double) info.get("total");
+            page.put("total", MathUtil.getDouble2(total));
+            page.put("ratio", MathUtil.getRate(total / amount));
+            page.put("xirr", info.get("xirr"));
+            pages.add(page);
         }
+        System.out.println(GsonUtil.toJson(pages));
+    }
+
+    /**
+     * 具体交易记录
+     */
+    @Test
+    public void testFundList() {
+        List<FundTx> txList = fundTxService.findFundTxByCode("000614");
+        System.out.println(GsonUtil.toJson(XirrUtils.getXirrInfo(txList)));
     }
 
 }

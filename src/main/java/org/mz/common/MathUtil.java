@@ -13,4 +13,8 @@ public class MathUtil {
     public static double negate(double amount) {
         return -amount;
     }
+
+    public static String getDouble2(double d) {
+        return String.format("%.2f", d);
+    }
 }

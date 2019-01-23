@@ -22,18 +22,6 @@ public class FundTxController {
     @Autowired
     private FundTxService fundTxService;
 
-    /**
-     * 交易列表
-     *
-     * @return
-     */
-    @RequestMapping("/list")
-    public String txList(Model model) {
-        List<FundTx> list = fundTxService.findAll();
-        model.addAttribute("list", list);
-        return "txList";
-    }
-
 
     /**
      * 查看详情
