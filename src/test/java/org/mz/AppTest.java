@@ -5,17 +5,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mz.common.*;
 import org.mz.entity.FundTx;
-import org.mz.entity.Tx;
 import org.mz.service.FundTxService;
-import org.mz.service.TxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -83,8 +78,38 @@ public class AppTest {
 
     @Test
     public void test1() {
-        List<FundTx> all = fundTxService.findFundTxByCode("000614");
-        System.out.println(GsonUtil.toJson(all));
+        List<FundTx> all = fundTxService.findAll();
+        Map<String, Object> map = new HashMap<>();
+        double amount = 0;
+        for (FundTx tx : all) {
+            map.put(tx.getCode(), tx.getName());
+            double netValue = FundUtil.getCurrentNetValue(tx.getCode());
+            double share = tx.getShare();
+            amount += netValue * share;
+        }
+
+
+        for (String s : map.keySet()) {
+            List<FundTx> txList = fundTxService.findFundTxByCode(s);
+            List<Transaction> xirrList = new ArrayList<>();
+            Transaction tx;
+            double total = 0;
+            for (FundTx fundTx : txList) {
+                tx = new Transaction(MathUtil.negate(fundTx.getAmount()), fundTx.getCreatedTime());
+                xirrList.add(tx);
+                double netValue = FundUtil.getCurrentNetValue(fundTx.getCode());
+                double share = fundTx.getShare();
+                total += netValue * share;
+            }
+            xirrList.add(new Transaction(total, DateTimeUtils.getSimpleTime(System.currentTimeMillis())));
+            double xirr = XirrUtils.getXirr(xirrList);
+            System.out.println(
+                    "name===" + map.get(s) + ";"
+                            + "code===" + s + ";"
+                            + "total===" + String.format("%.2f", total) + ";"
+                            + "ratio===" + MathUtil.getRate(total / amount) + ";"
+                            + "xirr===" + MathUtil.getRate(xirr));
+        }
     }
 
 }
