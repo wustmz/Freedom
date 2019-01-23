@@ -3,10 +3,7 @@ package org.mz;
 import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mz.common.DateTimeUtils;
-import org.mz.common.FundUtil;
-import org.mz.common.GsonUtil;
-import org.mz.common.XirrUtils;
+import org.mz.common.*;
 import org.mz.entity.FundTx;
 import org.mz.entity.Tx;
 import org.mz.service.FundTxService;
@@ -36,39 +33,15 @@ public class AppTest {
         System.out.println(xirr);
     }
 
-    @Autowired
-    private TxService txService;
-
-    @Test
-    public void testOp() {
-        List<Tx> list = txService.findAll();
-        List<Transaction> xirrList = new ArrayList<>();
-        Transaction transaction;
-        for (Tx tx : list) {
-            transaction = new Transaction(tx.getAmount().doubleValue() * (-1), tx.getCreatedTime());
-            xirrList.add(transaction);
-        }
-        String now = DateTimeUtils.getSimpleTime(System.currentTimeMillis());
-        xirrList.add(new Transaction(18900, now));
-        double xirr = XirrUtils.getXirr(xirrList);
-        NumberFormat nt = NumberFormat.getPercentInstance();
-        //设置百分数精确度2即保留两位小数
-        nt.setMinimumFractionDigits(2);
-        System.out.println(nt.format(xirr));
-    }
-
     @Test
     public void testTime() {
         String simpleTime = DateTimeUtils.getSimpleTime(System.currentTimeMillis());
         System.out.println(simpleTime);
     }
 
-    @Test
-    public void testAdd() {
-        FundTx tx = new FundTx();
-        tx.setCreatedTime("");
-    }
-
+    /**
+     * Fund总览
+     */
     @Test
     public void testFindAll() {
         List<FundTx> all = fundTxService.findFundTxByCode("000614");
@@ -83,6 +56,9 @@ public class AppTest {
     }
 
 
+    /**
+     * 总览
+     */
     @Test
     public void testRate() {
         List<Transaction> xirrList = new ArrayList<>();
@@ -91,7 +67,7 @@ public class AppTest {
         double total = 0;
         double money = 0;
         for (FundTx tx : list) {
-            transaction = new Transaction(negate(tx.getAmount()), tx.getCreatedTime());
+            transaction = new Transaction(MathUtil.negate(tx.getAmount()), tx.getCreatedTime());
             xirrList.add(transaction);
             double netValue = FundUtil.getCurrentNetValue(tx.getCode());
             double share = tx.getShare();
@@ -102,25 +78,13 @@ public class AppTest {
         double xirr = XirrUtils.getXirr(xirrList);
         System.out.println("money===" + money);
         System.out.println("total===" + total);
-        System.out.println("xirr===" + getRate(xirr));
-    }
-
-    private String getRate(double xirr) {
-        NumberFormat nt = NumberFormat.getPercentInstance();
-        //设置百分数精确度2即保留两位小数
-        nt.setMinimumFractionDigits(2);
-        return nt.format(xirr);
-    }
-
-    private double negate(double amount) {
-        return -amount;
+        System.out.println("xirr===" + MathUtil.getRate(xirr));
     }
 
     @Test
     public void test1() {
-        double v = 1.0089;
-        double v1 = 1.8675;
-        System.out.println(v * v1);
+        List<FundTx> all = fundTxService.findFundTxByCode("000614");
+        System.out.println(GsonUtil.toJson(all));
     }
 
 }
