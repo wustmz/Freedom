@@ -75,12 +75,45 @@ public class AppTest {
         //份额*最新净值=当前价值；所有基金当前价值相加等于总价值
         double total = 0;
         for (FundTx tx : all) {
-            List<String> list = FundUtil.getCurrentNetValue(tx.getCode());
-            Double netValue = Double.valueOf(list.get(0));
+            double netValue = FundUtil.getCurrentNetValue(tx.getCode());
             double share = tx.getShare();
             total += netValue * share;
         }
         System.out.println(GsonUtil.toJson(total));
+    }
+
+
+    @Test
+    public void testRate() {
+        List<Transaction> xirrList = new ArrayList<>();
+        Transaction transaction;
+        List<FundTx> list = fundTxService.findAll();
+        double total = 0;
+        double money = 0;
+        for (FundTx tx : list) {
+            transaction = new Transaction(negate(tx.getAmount()), tx.getCreatedTime());
+            xirrList.add(transaction);
+            double netValue = FundUtil.getCurrentNetValue(tx.getCode());
+            double share = tx.getShare();
+            total += netValue * share;
+            money += tx.getAmount();
+        }
+        xirrList.add(new Transaction(total, DateTimeUtils.getSimpleTime(System.currentTimeMillis())));
+        double xirr = XirrUtils.getXirr(xirrList);
+        System.out.println("money===" + money);
+        System.out.println("total===" + total);
+        System.out.println("xirr===" + getRate(xirr));
+    }
+
+    private String getRate(double xirr) {
+        NumberFormat nt = NumberFormat.getPercentInstance();
+        //设置百分数精确度2即保留两位小数
+        nt.setMinimumFractionDigits(2);
+        return nt.format(xirr);
+    }
+
+    private double negate(double amount) {
+        return -amount;
     }
 
     @Test

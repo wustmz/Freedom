@@ -11,10 +11,11 @@
 <!--card-->
 <div class="card card-small mb-4">
     <!--<div class="card-header border-bottom">-->
-        <!--<h6 class="m-0">基金交易列表</h6>-->
+    <!--<h6 class="m-0">基金交易列表</h6>-->
     <!--</div>-->
+    <a th:href="@{/}">返回首页</a>
     <div class="card-body p-0 pb-3 text-center">
-        <table class="table mb-0 table-bordered">
+        <table class="table mb-0 table-bordered table-condensed">
             <thead class="bg-light">
             <tr>
                 <th scope="col" class="border-0">#</th>
@@ -46,10 +47,12 @@
         </table>
     </div>
 </div>
-<div class="form-group">
-    <div class="col-sm-2 control-label">
-        <a th:href="@{/tx/toAdd}" class="btn btn-info">增加</a>
+<div class="container">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6 control-label">
+        <a th:href="@{/tx/toAdd}" class="btn btn-primary btn-lg btn-block">增加</a>
     </div>
+    <div class="col-sm-3"></div>
 </div>
 
 </body>

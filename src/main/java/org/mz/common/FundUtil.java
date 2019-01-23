@@ -52,7 +52,7 @@ public class FundUtil {
         return result;
     }
 
-    public static List<String> getCurrentNetValue(String code) {
+    public static List<String> getCurrentNetValueAndTime(String code) {
         String url = "http://hq.sinajs.cn/list=f_" + code;
         String charSet = "UTF-8";
         String[] strings = sendGet(url, charSet).split(",");
@@ -62,8 +62,15 @@ public class FundUtil {
         return list;
     }
 
+    public static double getCurrentNetValue(String code) {
+        String url = "http://hq.sinajs.cn/list=f_" + code;
+        String charSet = "UTF-8";
+        String[] strings = sendGet(url, charSet).split(",");
+        return Double.valueOf(strings[1]);
+    }
+
     public static void main(String[] args) throws Exception {
-        List<String> netValue = getCurrentNetValue("000614");
-        System.out.println(GsonUtil.toJson(netValue));
+        double netValue = getCurrentNetValue("000614");
+        System.out.println(netValue);
     }
 }
