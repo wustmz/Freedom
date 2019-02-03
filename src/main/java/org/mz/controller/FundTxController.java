@@ -8,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
 /**
  * @author 86501
  * @Description：
@@ -46,7 +44,7 @@ public class FundTxController {
     @RequestMapping("/save")
     public String saveFund(FundTx tx) {
         fundTxService.save(tx);
-        return "redirect:/tx/list";
+        return "index";
     }
 
     /**
