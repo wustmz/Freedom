@@ -9,6 +9,11 @@
     <script th:src="@{~/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<div class="page-header">
+    <h3>最新净值：
+        <small th:text="${list[0]}" style="color: red"></small>
+    </h3>
+</div>
 <!--card-->
 <div class="card card-small mb-4">
     <!--<div class="card-header border-bottom">-->

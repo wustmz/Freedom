@@ -27,13 +27,12 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h1>财富自由之路！</h1>
-        <p>我在且慢总计投入了</p>
-        <p th:text="${invest}">
-        <p>现在总价值为:</p>
-        <p th:text="${amount}"></p>
-        <p>年化收益率为:</p>
-        <p th:text="${totalXirr}"></p>
+        <h2>财富自由之路！</h2>
+        <p>
+            我在且慢总计投入: <u><span th:text="${invest}"></span></u>，
+            现在总价值为: <u><span th:text="${amount}"></span></u>，
+            年化收益率为: <u><span th:text="${totalXirr}"></span></u>
+        </p>
     </div>
 
     <table class="table table-striped table-bordered table-condensed">

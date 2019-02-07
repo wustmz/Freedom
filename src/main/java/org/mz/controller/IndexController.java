@@ -1,5 +1,6 @@
 package org.mz.controller;
 
+import org.mz.common.FundUtil;
 import org.mz.common.MathUtil;
 import org.mz.common.XirrUtils;
 import org.mz.entity.FundTx;
@@ -72,6 +73,8 @@ public class IndexController {
     public String getFundList(@PathVariable String code, Model model) {
         List<FundTx> txList = fundTxService.findFundTxByCode(code);
         model.addAttribute("txList", txList);
+        List<String> list = FundUtil.getCurrentNetValueAndTime(code);
+        model.addAttribute("list", list);
         return "txList";
     }
 
