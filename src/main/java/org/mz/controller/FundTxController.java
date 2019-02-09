@@ -44,7 +44,7 @@ public class FundTxController {
     @RequestMapping("/save")
     public String saveFund(FundTx tx) {
         fundTxService.save(tx);
-        return "index";
+        return "redirect:/";
     }
 
     /**
