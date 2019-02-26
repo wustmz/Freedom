@@ -41,13 +41,14 @@ public class AppTest {
     public void testFindAll() {
         List<FundTx> all = fundTxService.findFundTxByCode("000614");
         //份额*最新净值=当前价值；所有基金当前价值相加等于总价值
-        double total = 0;
-        for (FundTx tx : all) {
-            double netValue = FundUtil.getCurrentNetValue(tx.getCode());
-            double share = tx.getShare();
-            total += netValue * share;
-        }
-        System.out.println(GsonUtil.toJson(total));
+//        double total = 0;
+//        for (FundTx tx : all) {
+//            double netValue = FundUtil.getCurrentNetValue(tx.getCode());
+//            double share = tx.getShare();
+//            total += netValue * share;
+//        }
+//        System.out.println(GsonUtil.toJson(total));
+        System.out.println(GsonUtil.toJson(all));
     }
 
 
