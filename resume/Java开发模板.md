@@ -1,32 +1,27 @@
 ## 联系方式
 - 手机：17620809455
 - Email：mzlovestudy@gmail.com
-- 微信：mzgx1991
 
 ## 个人信息
-- 姓名/性别/出生日期 
-- 本科/xxx计算机系xxx专业/英语六级
-- 技术博客：[http://snailclimb.top/](http://snailclimb.top/) 
-- Github：[https://github.com/Snailclimb ](https://github.com/Snailclimb)
-- 期望职位：Java 研发程序员/大数据工程师(Java后台开发为首选)
- 
+- 梅湛/男/28 
+- 本科/武汉科技大学/英语六级
+- Github：[https://github.com/wustmz ](https://github.com/wustmz)
+- 期望职位：Java开发工程师
+
 ## 技能与评价（根据职位重点打磨）
-- 7年部门管理经验，丰富的项目、团队管理经验
-- 7年嵌入式开发经验，在互联网电视机顶盒、车载娱乐系统、手持娱乐设备（MP3/MP4）等领域有成功经验
-- 丰富的软件系统架构设计经验
-- 熟悉常见的设计模式，有丰富的面向对象设计经验
-- 精通C/C++，熟悉Java，Shell，了解python，Lua，JavaScript等
-- 可熟练在Android、嵌入式Linux、Windows CE、Windows、Linux等平台下进行开发
-- 熟悉Android/Qt(E)/MFC/WTL等GUI框架
-- 熟悉DirectShow/GStreamer/MPlayer/FFMPEG/VLC/Vitamio等多媒体框架
-- 熟悉网络编程，熟悉各种流媒体协议（http/HLS/rtmp/p2p/rtsp等）
+- 3年Java开发经验，熟悉Java并发编程，了解分布式事务分布式锁；
+- 熟悉Java Web常用框架，如SpringMVC/Spring Boot/Spring Data JPA/MyBatis等；
+- 熟悉Spring Cloud核心组件且有一定的调优经验；熟悉RPC框架Dubbo并了解底层原理；
+- 熟悉分布式架构常用中间件，如Kafka/RabbitMQ、Redis、Mycat、ElasticSearch等；
+- 熟悉常见的设计模式，有丰富的面向对象设计经验；
+- 对技术有强烈的兴趣，具备良好的学习能力，喜欢钻研和尝试新技术；
+- 具备良好的沟通能力以及团队协作能力；
 
 
 ## 工作经历
-### 2014.12~2015.12，陕西XX网络科技有限公司
-- 职位：技术总监
-- 职责：团队组建、管理、技术方向把握、项目管理、产品管理
-- 业绩：3个月组建10人团队 
+### 2018.3~2019.3，深圳火星圈信息技术有限公司，Java开发工程师
+
+### 2016.6~2018.2，深圳火星圈信息技术有限公司，Java开发工程师
 
 ## 项目经历（根据职位重点打磨）
 

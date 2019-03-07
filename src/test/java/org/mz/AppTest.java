@@ -3,14 +3,21 @@ package org.mz;
 import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mz.common.*;
+import org.mz.common.DateTimeUtils;
+import org.mz.common.GsonUtil;
+import org.mz.common.MathUtil;
+import org.mz.common.XirrUtils;
 import org.mz.entity.FundTx;
 import org.mz.service.FundTxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -106,6 +113,11 @@ public class AppTest {
     public void testFundList() {
         List<FundTx> txList = fundTxService.findFundTxByCode("000614");
         System.out.println(GsonUtil.toJson(XirrUtils.getXirrInfo(txList)));
+    }
+
+    @Test
+    public void testArray() {
+
     }
 
 }

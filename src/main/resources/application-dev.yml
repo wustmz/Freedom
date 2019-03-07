@@ -33,3 +33,7 @@ spring:
       wall:
         config:
           multi-statement-allow: true
+  #设置热部署
+  devtools:
+    restart:
+      enabled: true
