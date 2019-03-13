@@ -9,11 +9,14 @@
 <body>
 <div class="container-fluid">
     now: <span th:text="${now}"></span><br/>
-    rate: <span th:text="${rate}"></span>
+    rate: <span th:text="${rate}"></span><br/>
+    <hr>
+    now1: <span th:text="${now1}"></span><br/>
+    rate1: <span th:text="${rate1}"></span>
 </div>
 <script>
     window.onload = function () {
-        setTimeout('myrefresh()', 15000);
+        setTimeout('myrefresh()', 20000);
     };
 
 

@@ -13,16 +13,21 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/stock")
-public class StockControllet {
+public class StockController {
 
 
     @GetMapping("find")
     public String get(Model model) {
-        List<Object> list = getArr("fzzq", 8.131);
+        List<Object> list = getArr("fzzq", 7.939);
         Object now = list.get(0);
         Object rate = list.get(1);
         model.addAttribute("now", now);
         model.addAttribute("rate", rate);
+        List<Object> list1 = getArr("qdg", 9.675);
+        Object now1 = list1.get(0);
+        Object rate1 = list1.get(1);
+        model.addAttribute("now1", now1);
+        model.addAttribute("rate1", rate1);
         return "stock";
     }
 
