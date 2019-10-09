@@ -53,6 +53,9 @@ public class Finance {
     @Column(name = "zhongxin")
     private BigDecimal zhongxin;
 
+    @Column(name = "total")
+    private BigDecimal total;
+
     @CreatedDate
     @Column(name = "createtime")
     private Date createtime;
