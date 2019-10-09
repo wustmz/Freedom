@@ -37,23 +37,90 @@ public class AppTest {
     private RestTemplate restTemplate;
 
     @Test
-    public void testFinance() {
-//        Finance finance = new Finance();
-        Finance finance = financeService.findById(1);
-        finance.setQieman(new BigDecimal("23322.97"));
-        finance.setAlipay(new BigDecimal("1292.62"));
-        finance.setWechat(new BigDecimal("0.57"));
-        finance.setBank(new BigDecimal("54.83"));
-        finance.setStock(new BigDecimal("29345.50"));
-        finance.setDept(new BigDecimal("35000"));
-        finance.setLoan(new BigDecimal("18000"));
-        finance.setHuabei(new BigDecimal(15000 - 14290.89));
-        finance.setBaitiao(new BigDecimal(11965 - 9173));
-        finance.setZhaoshang(new BigDecimal(20000 - 15165.93));
-        finance.setZhongxin(new BigDecimal(27500 - 6366.61));
+    public void testFinanceSave() {
+
+        BigDecimal qieman = new BigDecimal(23322.97);
+        BigDecimal alipay = new BigDecimal(1292.62);
+        BigDecimal wechat = new BigDecimal(0.57);
+        BigDecimal bank = new BigDecimal(15524.42 + 7107.50 - 16000);
+        BigDecimal stock = new BigDecimal(22348);
+        BigDecimal dept = new BigDecimal(35000);
+
+        BigDecimal loan = new BigDecimal(18000);
+        BigDecimal huabei = new BigDecimal(15000 - 14290.89);
+        BigDecimal baitiao = new BigDecimal(11965 - 9173);
+        BigDecimal zhaoshang = new BigDecimal(20000 - 15165.93);
+        BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
+
+        Finance finance = new Finance();
+        finance.setQieman(qieman);
+        finance.setAlipay(alipay);
+        finance.setWechat(wechat);
+        finance.setBank(bank);
+        finance.setStock(stock);
+        finance.setDept(dept);
+
+        finance.setLoan(loan);
+        finance.setHuabei(huabei);
+        finance.setBaitiao(baitiao);
+        finance.setZhaoshang(zhaoshang);
+        finance.setZhongxin(zhongxin);
+
+        BigDecimal total = qieman
+                .add(alipay).add(wechat).add(bank).add(stock).add(dept)
+                .subtract(loan).subtract(huabei).subtract(baitiao).subtract(zhaoshang).subtract(zhongxin);
+        finance.setTotal(total);
 
         financeService.save(finance);
-//        System.out.println(finance);
+    }
+
+    @Test
+    public void testFinanceUpdate() {
+
+        BigDecimal qieman = new BigDecimal(23322.97);
+        BigDecimal alipay = new BigDecimal(1292.62);
+        BigDecimal wechat = new BigDecimal(0.57);
+        BigDecimal bank = new BigDecimal(15524.42 + 7107.50 - 16000);
+        BigDecimal stock = new BigDecimal(22348);
+        BigDecimal dept = new BigDecimal(35000);
+
+        BigDecimal loan = new BigDecimal(18000);
+        BigDecimal huabei = new BigDecimal(15000 - 14290.89);
+        BigDecimal baitiao = new BigDecimal(11965 - 9173);
+        BigDecimal zhaoshang = new BigDecimal(20000 - 15165.93);
+        BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
+
+        Finance finance = financeService.findById(1);
+        finance.setQieman(qieman);
+        finance.setAlipay(alipay);
+        finance.setWechat(wechat);
+        finance.setBank(bank);
+        finance.setStock(stock);
+        finance.setDept(dept);
+
+        finance.setLoan(loan);
+        finance.setHuabei(huabei);
+        finance.setBaitiao(baitiao);
+        finance.setZhaoshang(zhaoshang);
+        finance.setZhongxin(zhongxin);
+
+        BigDecimal t1 = qieman.add(alipay).add(wechat).add(bank).add(stock).add(dept);
+        System.out.println("t1: " + t1);
+        BigDecimal t2 = loan.add(huabei).add(baitiao).add(zhaoshang).add(zhongxin);
+        System.out.println("t2: " + t2);
+        BigDecimal total = t1.subtract(t2);
+        finance.setTotal(total);
+
+        financeService.save(finance);
+        System.out.println("total: " + financeService.findById(1).getTotal());
+    }
+
+    @Test
+    public void testFinanceFind() {
+//        List<Finance> finances = financeService.findAll();
+        Finance finance = financeService.findById(1);
+        BigDecimal total = finance.getTotal();
+        System.out.println(total.toString());
     }
 
     @Test
