@@ -7,12 +7,16 @@ import org.mz.common.DateTimeUtils;
 import org.mz.common.GsonUtil;
 import org.mz.common.MathUtil;
 import org.mz.common.XirrUtils;
+import org.mz.entity.Finance;
 import org.mz.entity.FundTx;
+import org.mz.service.FinanceService;
 import org.mz.service.FundTxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +29,43 @@ public class AppTest {
 
     @Autowired
     private FundTxService fundTxService;
+
+    @Autowired
+    private FinanceService financeService;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Test
+    public void testFinance() {
+//        Finance finance = new Finance();
+        Finance finance = financeService.findById(1);
+        finance.setQieman(new BigDecimal("23322.97"));
+        finance.setAlipay(new BigDecimal("1292.62"));
+        finance.setWechat(new BigDecimal("0.57"));
+        finance.setBank(new BigDecimal("54.83"));
+        finance.setStock(new BigDecimal("29345.50"));
+        finance.setDept(new BigDecimal("35000"));
+        finance.setLoan(new BigDecimal("18000"));
+        finance.setHuabei(new BigDecimal(15000 - 14290.89));
+        finance.setBaitiao(new BigDecimal(11965 - 9173));
+        finance.setZhaoshang(new BigDecimal(20000 - 15165.93));
+        finance.setZhongxin(new BigDecimal(27500 - 6366.61));
+
+        financeService.save(finance);
+//        System.out.println(finance);
+    }
+
+    @Test
+    public void testStock() {
+        Map<String, String> vars = new HashMap<>();
+        vars.put("gid", "sh510500");
+        vars.put("key", "9303093729a121adf70f5562dc5cedc1");
+
+        String url = "http://web.juhe.cn:8080/finance/stock/hs?gid={gid}&key={key}";
+        String object = restTemplate.getForObject(url, String.class, vars);
+        System.out.println(object);
+    }
 
     @Test
     public void test() {
