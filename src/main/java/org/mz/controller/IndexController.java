@@ -36,6 +36,7 @@ public class IndexController {
         for (Finance finance : finances) {
             BigDecimal total = finance.getTotal();
             Date updatetime = finance.getUpdatetime();
+            map.put(updatetime, total);
         }
         return "index";
     }
