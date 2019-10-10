@@ -32,7 +32,7 @@ public class IndexController {
     @RequestMapping("/")
     public String index(Model model) {
         List<Finance> finances = financeService.findAll();
-
+        Map map = new HashMap();
         for (Finance finance : finances) {
             BigDecimal total = finance.getTotal();
             Date updatetime = finance.getUpdatetime();
