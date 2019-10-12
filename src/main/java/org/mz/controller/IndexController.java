@@ -1,8 +1,8 @@
 package org.mz.controller;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.mz.common.FundUtil;
-import org.mz.common.MathUtil;
-import org.mz.common.XirrUtils;
+import org.mz.entity.FinanceDto;
 import org.mz.entity.Finance;
 import org.mz.entity.FundTx;
 import org.mz.entity.Tx;
@@ -12,12 +12,12 @@ import org.mz.service.TxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class IndexController {
@@ -29,16 +29,25 @@ public class IndexController {
     @Autowired
     private FinanceService financeService;
 
-    @RequestMapping("/")
-    public String index(Model model) {
+
+    @GetMapping(value = "/Echars.do")
+    public String echarts4(Model model) {
+        System.err.println("========开始");
+        return "Echars";
+    }
+
+    @RequestMapping("/finances")
+    @ResponseBody
+    public List<FinanceDto> index() {
         List<Finance> finances = financeService.findAll();
-        Map map = new HashMap();
+        List<FinanceDto> dtos = new ArrayList<>();
+        FinanceDto dto;
         for (Finance finance : finances) {
-            BigDecimal total = finance.getTotal();
-            Date updatetime = finance.getUpdatetime();
-            map.put(updatetime, total);
+            String format = DateFormatUtils.format(finance.getCreatetime(), "yyyy-MM-dd");
+            dto = new FinanceDto(format, finance.getTotal().toString());
+            dtos.add(dto);
         }
-        return "index";
+        return dtos;
     }
 
 //    @RequestMapping("/")
