@@ -29,6 +29,11 @@ public class IndexController {
     @Autowired
     private FinanceService financeService;
 
+    @GetMapping(value = "/")
+    public String index() {
+        return "redirect:/finance/list";
+    }
+
 
     @GetMapping(value = "/Echars.do")
     public String echarts4(Model model) {
@@ -38,12 +43,12 @@ public class IndexController {
 
     @RequestMapping("/finances")
     @ResponseBody
-    public List<FinanceDto> index() {
+    public List<FinanceDto> finances() {
         List<Finance> finances = financeService.findAll();
         List<FinanceDto> dtos = new ArrayList<>();
         FinanceDto dto;
         for (Finance finance : finances) {
-            String format = DateFormatUtils.format(finance.getCreatetime(), "yyyy-MM-dd");
+            String format = DateFormatUtils.format(finance.getUpdatetime(), "yyyy-MM-dd");
             dto = new FinanceDto(format, finance.getTotal().toString());
             dtos.add(dto);
         }

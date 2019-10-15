@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -55,8 +56,28 @@ public class FinanceController {
      */
     @RequestMapping("/save")
     public String save(Finance finance) {
+        BigDecimal qieman = finance.getQieman();
+        BigDecimal alipay = finance.getAlipay();
+        BigDecimal wechat = finance.getWechat();
+        BigDecimal bank = finance.getBank();
+        BigDecimal stock = finance.getStock();
+        BigDecimal dept = finance.getDept();
+
+        BigDecimal loan = finance.getLoan();
+        BigDecimal huabei = finance.getHuabei();
+        BigDecimal baitiao = finance.getBaitiao();
+        BigDecimal zhaoshang = finance.getZhaoshang();
+        BigDecimal zhongxin = finance.getZhongxin();
+
+        BigDecimal t1 = qieman.add(alipay).add(wechat).add(bank).add(stock).add(dept);
+        System.out.println("t1: " + t1);
+        BigDecimal t2 = loan.add(huabei).add(baitiao).add(zhaoshang).add(zhongxin);
+        System.out.println("t2: " + t2);
+        BigDecimal total = t1.subtract(t2);
+        finance.setTotal(total);
+
         financeService.save(finance);
-        return "financeList";
+        return "redirect:/finance/list";
     }
 
     /**

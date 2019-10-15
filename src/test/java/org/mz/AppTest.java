@@ -77,20 +77,20 @@ public class AppTest {
     @Test
     public void testFinanceUpdate() {
 
-        BigDecimal qieman = new BigDecimal(23322.97);
-        BigDecimal alipay = new BigDecimal(1292.62);
+        BigDecimal qieman = new BigDecimal(23715.08);
+        BigDecimal alipay = new BigDecimal(1229.19);
         BigDecimal wechat = new BigDecimal(0.57);
-        BigDecimal bank = new BigDecimal(15524.42 + 7107.50 - 16000);
-        BigDecimal stock = new BigDecimal(22348);
-        BigDecimal dept = new BigDecimal(35000);
+        BigDecimal bank = new BigDecimal(10197.52);
+        BigDecimal stock = new BigDecimal(22946);
+        BigDecimal dept = new BigDecimal(35000 - 3000);
 
         BigDecimal loan = new BigDecimal(18000);
-        BigDecimal huabei = new BigDecimal(15000 - 14290.89);
-        BigDecimal baitiao = new BigDecimal(11965 - 9173);
-        BigDecimal zhaoshang = new BigDecimal(20000 - 15165.93);
+        BigDecimal huabei = new BigDecimal(15000 - 14133.87);
+        BigDecimal baitiao = new BigDecimal(11985 - 9193);
+        BigDecimal zhaoshang = new BigDecimal(20000 - 14655.33);
         BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
 
-        Finance finance = financeService.findById(1);
+        Finance finance = financeService.findById(2);
         finance.setQieman(qieman);
         finance.setAlipay(alipay);
         finance.setWechat(wechat);
@@ -112,7 +112,7 @@ public class AppTest {
         finance.setTotal(total);
 
         financeService.save(finance);
-        System.out.println("total: " + financeService.findById(1).getTotal());
+        System.out.println("total: " + financeService.findById(2).getTotal());
     }
 
     @Test
