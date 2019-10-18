@@ -30,7 +30,7 @@ public class DownloadFileController {
     public String download(HttpServletResponse response) {
         List<Map<String, Object>> dataList;
 
-        List<Tx> list = txService.findAll();
+        List<Tx> list = txService.list();
         String fName = "_log";
         String sTitle = "id,余额,创建时间";
         String mapKey = "id,username,createtDate";

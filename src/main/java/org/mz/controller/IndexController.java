@@ -2,10 +2,11 @@ package org.mz.controller;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.mz.common.FundUtil;
-import org.mz.entity.FinanceDto;
 import org.mz.entity.Finance;
+import org.mz.entity.FinanceDto;
 import org.mz.entity.FundTx;
 import org.mz.entity.Tx;
+import org.mz.mapper.FundTxMapper;
 import org.mz.service.FinanceService;
 import org.mz.service.FundTxService;
 import org.mz.service.TxService;
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -28,6 +30,9 @@ public class IndexController {
     private FundTxService fundTxService;
     @Autowired
     private FinanceService financeService;
+
+    @Autowired
+    private FundTxMapper fundTxMapper;
 
     @GetMapping(value = "/")
     public String index() {
@@ -44,11 +49,11 @@ public class IndexController {
     @RequestMapping("/finances")
     @ResponseBody
     public List<FinanceDto> finances() {
-        List<Finance> finances = financeService.findAll();
+        List<Finance> finances = financeService.list();
         List<FinanceDto> dtos = new ArrayList<>();
         FinanceDto dto;
         for (Finance finance : finances) {
-            String format = DateFormatUtils.format(finance.getUpdatetime(), "yyyy-MM-dd");
+            String format = DateFormatUtils.format(finance.getUpdateTime(), "yyyy-MM-dd");
             dto = new FinanceDto(format, finance.getTotal().toString());
             dtos.add(dto);
         }
@@ -110,7 +115,7 @@ public class IndexController {
 
     @RequestMapping("/list")
     public String list(Model model) {
-        List<Tx> list = txService.findAll();
+        List<Tx> list = txService.list();
         model.addAttribute("list", list);
         return "list";
     }
@@ -124,7 +129,7 @@ public class IndexController {
      */
     @RequestMapping("/info/{id}")
     public String info(@PathVariable int id, Model model) {
-        Tx tx = txService.findById(id);
+        Tx tx = txService.selectById(id);
         model.addAttribute("tx", tx);
         return "info";
     }
@@ -137,7 +142,7 @@ public class IndexController {
      */
     @RequestMapping("/save")
     public String saveFund(Tx tx) {
-        txService.save(tx);
+        txService.insertOrUpdate(tx);
         return "redirect:/list";
     }
 
@@ -155,7 +160,7 @@ public class IndexController {
 
     @RequestMapping("/edit/{id}")
     public String editById(@PathVariable int id, Model model) {
-        Tx tx = txService.findById(id);
+        Tx tx = txService.selectById(id);
         model.addAttribute("tx", tx);
         return "edit";
     }

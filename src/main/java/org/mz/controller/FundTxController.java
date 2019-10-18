@@ -30,7 +30,7 @@ public class FundTxController {
      */
     @RequestMapping("/info/{id}")
     public String fundInfo(@PathVariable int id, Model model) {
-        FundTx tx = fundTxService.findById(id);
+        FundTx tx = fundTxService.selectById(id);
         model.addAttribute("tx", tx);
         return "txInfo";
     }
@@ -43,7 +43,7 @@ public class FundTxController {
      */
     @RequestMapping("/save")
     public String saveFund(FundTx tx) {
-        fundTxService.save(tx);
+        fundTxService.insertOrUpdate(tx);
         return "redirect:/";
     }
 
@@ -61,7 +61,7 @@ public class FundTxController {
 
     @RequestMapping("/edit/{id}")
     public String editById(@PathVariable int id, Model model) {
-        FundTx tx = fundTxService.findById(id);
+        FundTx tx = fundTxService.selectById(id);
         model.addAttribute("tx", tx);
         return "txEdit";
     }

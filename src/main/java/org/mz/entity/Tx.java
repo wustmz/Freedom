@@ -1,12 +1,13 @@
 package org.mz.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import lombok.Data;
+
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import static com.baomidou.mybatisplus.enums.FieldFill.INSERT;
 
-import lombok.Data;
 
 /**
  * @author 86501
@@ -14,13 +15,14 @@ import lombok.Data;
  * @date 2019/1/20
  * @time 12:47
  */
-@Entity(name = "tx")
+@TableName("tx")
 @Data
 public class Tx {
-    @Id
+
     private int id;
-    @Column(name = "amount")
+
     private BigDecimal amount;
-    @Column(name = "createdTime")
+
+    @TableField(fill = INSERT)
     private String createdTime;
 }

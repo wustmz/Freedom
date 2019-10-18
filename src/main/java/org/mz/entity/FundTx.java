@@ -1,30 +1,32 @@
 package org.mz.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
+import static com.baomidou.mybatisplus.enums.FieldFill.INSERT;
+import static com.baomidou.mybatisplus.enums.FieldFill.INSERT_UPDATE;
+
 @Data
-@Entity
+@TableName("fund_tx")
 public class FundTx {
 
-    @Id
     private int id;
-    @Column(name = "amount")
+
     private double amount;
-    @Column(name = "createdTime")
+
+    @TableField(fill = INSERT)
     private String createdTime;
-    @Column(name = "netValue")
+
     private double netValue;
-    @Column(name = "share")
+
     private double share;
-    @Column(name = "updateTime")
+
+    @TableField(fill = INSERT_UPDATE)
     private String updateTime;
-    @Column(name = "name")
+
     private String name;
-    @Column(name = "code")
+
     private String code;
 }

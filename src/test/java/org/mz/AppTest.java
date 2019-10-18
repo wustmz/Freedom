@@ -3,12 +3,12 @@ package org.mz;
 import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mz.common.DateTimeUtils;
-import org.mz.common.GsonUtil;
-import org.mz.common.MathUtil;
-import org.mz.common.XirrUtils;
+import org.mz.common.*;
+import org.mz.entity.DapanData;
 import org.mz.entity.Finance;
 import org.mz.entity.FundTx;
+import org.mz.entity.MQTest;
+import org.mz.mapper.FundTxMapper;
 import org.mz.service.FinanceService;
 import org.mz.service.FundTxService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +30,18 @@ public class AppTest {
     private FinanceService financeService;
 
     @Autowired
+    private FundTxMapper fundTxMapper;
+
+    @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private MQTest mqTest;
+
+    @Test
+    public void testMq() {
+        mqTest.sendMqExchange();
+    }
 
     @Test
     public void testFinanceSave() {
@@ -71,7 +78,7 @@ public class AppTest {
                 .subtract(loan).subtract(huabei).subtract(baitiao).subtract(zhaoshang).subtract(zhongxin);
         finance.setTotal(total);
 
-        financeService.save(finance);
+        financeService.insertOrUpdate(finance);
     }
 
     @Test
@@ -90,7 +97,7 @@ public class AppTest {
         BigDecimal zhaoshang = new BigDecimal(20000 - 14655.33);
         BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
 
-        Finance finance = financeService.findById(2);
+        Finance finance = financeService.selectById(2);
         finance.setQieman(qieman);
         finance.setAlipay(alipay);
         finance.setWechat(wechat);
@@ -111,27 +118,27 @@ public class AppTest {
         BigDecimal total = t1.subtract(t2);
         finance.setTotal(total);
 
-        financeService.save(finance);
-        System.out.println("total: " + financeService.findById(2).getTotal());
+        financeService.insertOrUpdate(finance);
+        System.out.println("total: " + financeService.selectById(2).getTotal());
     }
 
     @Test
     public void testFinanceFind() {
 //        List<Finance> finances = financeService.findAll();
-        Finance finance = financeService.findById(1);
+        Finance finance = financeService.selectById(1);
         BigDecimal total = finance.getTotal();
         System.out.println(total.toString());
     }
 
+    @Autowired
+    private DapanUtil dapanUtil;
+
     @Test
     public void testStock() {
-        Map<String, String> vars = new HashMap<>();
-        vars.put("gid", "sh510500");
-        vars.put("key", "9303093729a121adf70f5562dc5cedc1");
-
-        String url = "http://web.juhe.cn:8080/finance/stock/hs?gid={gid}&key={key}";
-        String object = restTemplate.getForObject(url, String.class, vars);
-        System.out.println(object);
+        DapanData dapanData = dapanUtil.get("sh510500");
+        System.out.println(dapanData.getRate());
+        System.out.println(dapanData.getDot());
+        System.out.println(dapanData.getNowPic());
     }
 
     @Test
@@ -154,7 +161,7 @@ public class AppTest {
      */
     @Test
     public void testFindAll() {
-        List<FundTx> all = fundTxService.findFundTxByCode("000614");
+        List<FundTx> all = fundTxMapper.findFundTxByCode("000614");
         //份额*最新净值=当前价值；所有基金当前价值相加等于总价值
 //        double total = 0;
 //        for (FundTx tx : all) {
@@ -172,7 +179,7 @@ public class AppTest {
      */
     @Test
     public void testRate() {
-        List<FundTx> all = fundTxService.findAll();
+        List<FundTx> all = fundTxService.list();
         Map<String, Object> xirrInfo = XirrUtils.getXirrInfo(all);
         System.out.println("money===" + xirrInfo.get("invest"));
         System.out.println("total===" + xirrInfo.get("total"));
@@ -184,7 +191,7 @@ public class AppTest {
      */
     @Test
     public void test1() {
-        List<FundTx> all = fundTxService.findAll();
+        List<FundTx> all = fundTxService.list();
         Map<String, Object> xirrInfo = XirrUtils.getXirrInfo(all);
         double amount = (double) xirrInfo.get("total");
         System.out.println("money===" + xirrInfo.get("invest"));
@@ -201,7 +208,7 @@ public class AppTest {
         Map<String, Object> page;
         for (String s : map.keySet()) {
             page = new HashMap<>();
-            List<FundTx> txList = fundTxService.findFundTxByCode(s);
+            List<FundTx> txList = fundTxMapper.findFundTxByCode(s);
             Map<String, Object> info = XirrUtils.getXirrInfo(txList);
             page.put("code", s);
             page.put("name", map.get(s));

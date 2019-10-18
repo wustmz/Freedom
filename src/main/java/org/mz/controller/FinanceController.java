@@ -29,7 +29,7 @@ public class FinanceController {
 
     @RequestMapping("/list")
     public String list(Model model) {
-        List<Finance> list = financeService.findAll();
+        List<Finance> list = financeService.list();
         model.addAttribute("list", list);
         return "financeList";
     }
@@ -43,7 +43,7 @@ public class FinanceController {
      */
     @RequestMapping("/info/{id}")
     public String info(@PathVariable int id, Model model) {
-        Finance finance = financeService.findById(id);
+        Finance finance = financeService.selectById(id);
         model.addAttribute("finance", finance);
         return "financeInfo";
     }
@@ -76,7 +76,7 @@ public class FinanceController {
         BigDecimal total = t1.subtract(t2);
         finance.setTotal(total);
 
-        financeService.save(finance);
+        financeService.insertOrUpdate(finance);
         return "redirect:/finance/list";
     }
 
@@ -94,7 +94,7 @@ public class FinanceController {
 
     @RequestMapping("/edit/{id}")
     public String editById(@PathVariable int id, Model model) {
-        Finance finance = financeService.findById(id);
+        Finance finance = financeService.selectById(id);
         model.addAttribute("finance", finance);
         return "financeEdit";
     }
