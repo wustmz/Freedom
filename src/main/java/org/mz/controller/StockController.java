@@ -1,11 +1,10 @@
 package org.mz.controller;
 
-import org.mz.common.APIUtil;
+import org.mz.common.utils.APIUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
