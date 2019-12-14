@@ -1,9 +1,7 @@
 package org.mz.controller;
 
-import org.mz.common.ExportUtil;
-import org.mz.entity.FundTx;
+import org.mz.common.utils.ExportUtil;
 import org.mz.entity.Tx;
-import org.mz.service.FundTxService;
 import org.mz.service.TxService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
