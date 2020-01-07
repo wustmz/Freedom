@@ -1,11 +1,17 @@
 server:
   port: 10086
 
+send:
+  queue:
+    name: mz
+  exchange:
+    name: mz
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.107.176.7:3306/guns?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://47.107.176.7:3306/guns?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
     username: root
     password: root
     initial-size: 10

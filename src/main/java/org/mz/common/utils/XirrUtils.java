@@ -1,4 +1,4 @@
-package org.mz.common;
+package org.mz.common.utils;
 
 import org.decampo.xirr.Transaction;
 import org.decampo.xirr.Xirr;

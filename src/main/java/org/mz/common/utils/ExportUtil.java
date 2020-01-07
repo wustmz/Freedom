@@ -1,4 +1,4 @@
-package org.mz.common;
+package org.mz.common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

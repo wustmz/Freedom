@@ -6,77 +6,34 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqConfig {
-    public final static String DIRECT_QUEUE = "directQueue";
-    public final static String TOPIC_QUEUE_ONE = "topic_queue_one";
-    public final static String TOPIC_QUEUE_TWO = "topic_queue_two";
-    public final static String FANOUT_QUEUE_ONE = "fanout_queue_one";
-    public final static String FANOUT_QUEUE_TWO = "fanout_queue_two";
-
-    public final static String TOPIC_EXCHANGE = "topic_exchange";
-    public final static String FANOUT_EXCHANGE = "fanout_exchange";
-
-    public final static String TOPIC_ROUTINGKEY_ONE = "common_key";
-    public final static String TOPIC_ROUTINGKEY_TWO = "*.key";
-
-    //  direct模式队列
     @Bean
-    public Queue directQueue() {
-        return new Queue(DIRECT_QUEUE, true);
-    }
-
-    //  topic 订阅者模式队列
-    @Bean
-    public Queue topicQueueOne() {
-        return new Queue(TOPIC_QUEUE_ONE, true);
+    public Queue QueueA() {
+        return new Queue("hello");
     }
 
     @Bean
-    public Queue topicQueueTwo() {
-        return new Queue(TOPIC_QUEUE_TWO, true);
+    public Queue QueueB() {
+        return new Queue("helloObj");
     }
 
-    //  fanout 广播者模式队列
+    /**
+     * Fanout 就是我们熟悉的广播模式或者订阅模式，给Fanout交换机发送消息，绑定了这个交换机的所有队列都收到这个消息。
+     *
+     * @return
+     */
     @Bean
-    public Queue fanoutQueueOne() {
-        return new Queue(FANOUT_QUEUE_ONE, true);
+    FanoutExchange fanoutExchange() {
+        return new FanoutExchange("ABExchange");
     }
 
-    @Bean
-    public Queue fanoutQueueTwo() {
-        return new Queue(FANOUT_QUEUE_TWO, true);
-    }
 
-    //  topic 交换器
     @Bean
-    public TopicExchange topExchange() {
-        return new TopicExchange(TOPIC_EXCHANGE);
-    }
-
-    //  fanout 交换器
-    @Bean
-    public FanoutExchange fanoutExchange() {
-        return new FanoutExchange(FANOUT_EXCHANGE);
-    }
-
-    //   订阅者模式绑定
-    @Bean
-    public Binding topExchangeBingingOne() {
-        return BindingBuilder.bind(topicQueueOne()).to(topExchange()).with(TOPIC_ROUTINGKEY_ONE);
+    Binding bindingExchangeA(Queue QueueA, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(QueueA).to(fanoutExchange);
     }
 
     @Bean
-    public Binding topicExchangeBingingTwo() {
-        return BindingBuilder.bind(topicQueueTwo()).to(topExchange()).with(TOPIC_ROUTINGKEY_TWO);
-    }
-
-    //   广播模式绑定
-    @Bean
-    public Binding fanoutExchangeBingingOne() {
-        return BindingBuilder.bind(fanoutQueueOne()).to(fanoutExchange());
-    }
-
-    @Bean
-    public Binding fanoutExchangeBingingTwo() {
-        return BindingBuilder.bind(fanoutQueueTwo()).to(fanoutExchange());
+    Binding bindingExchangeB(Queue QueueB, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(QueueB).to(fanoutExchange);
     }
 }

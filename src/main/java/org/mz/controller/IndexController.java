@@ -1,7 +1,7 @@
 package org.mz.controller;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.mz.common.FundUtil;
+import org.mz.common.utils.FundUtil;
 import org.mz.entity.Finance;
 import org.mz.entity.FinanceDto;
 import org.mz.entity.FundTx;

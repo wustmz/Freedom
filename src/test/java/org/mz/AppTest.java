@@ -1,24 +1,26 @@
 package org.mz;
 
+import lombok.extern.slf4j.Slf4j;
 import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mz.common.*;
-import org.mz.entity.DapanData;
+import org.mz.common.utils.DateTimeUtils;
+import org.mz.common.utils.GsonUtil;
+import org.mz.common.utils.MathUtil;
+import org.mz.common.utils.XirrUtils;
 import org.mz.entity.Finance;
 import org.mz.entity.FundTx;
-import org.mz.entity.MQTest;
 import org.mz.mapper.FundTxMapper;
 import org.mz.service.FinanceService;
 import org.mz.service.FundTxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AppTest {
@@ -32,32 +34,23 @@ public class AppTest {
     @Autowired
     private FundTxMapper fundTxMapper;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private MQTest mqTest;
-
-    @Test
-    public void testMq() {
-        mqTest.sendMqExchange();
-    }
 
     @Test
     public void testFinanceSave() {
-
-        BigDecimal qieman = new BigDecimal(23322.97);
-        BigDecimal alipay = new BigDecimal(1292.62);
-        BigDecimal wechat = new BigDecimal(0.57);
-        BigDecimal bank = new BigDecimal(15524.42 + 7107.50 - 16000);
-        BigDecimal stock = new BigDecimal(22348);
-        BigDecimal dept = new BigDecimal(35000);
-
-        BigDecimal loan = new BigDecimal(18000);
-        BigDecimal huabei = new BigDecimal(15000 - 14290.89);
-        BigDecimal baitiao = new BigDecimal(11965 - 9173);
-        BigDecimal zhaoshang = new BigDecimal(20000 - 15165.93);
-        BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
+        //资产
+        BigDecimal qieman = new BigDecimal("49607.02");
+        BigDecimal alipay = new BigDecimal("4145.05");
+        BigDecimal wechat = new BigDecimal("1950.01");
+        BigDecimal bank = new BigDecimal("13548.05");
+        BigDecimal stock = new BigDecimal("1009.7");
+        BigDecimal dept = new BigDecimal(20000 + 10000);//别人欠我的
+        //信用贷
+        BigDecimal loan = new BigDecimal(3270 * 4);
+        //消费贷
+        BigDecimal huabei = BigDecimal.valueOf(15000 - 14360.04);
+        BigDecimal baitiao = new BigDecimal("3661.52");
+        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 11156.19);
+        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 21361.78);
 
         Finance finance = new Finance();
         finance.setQieman(qieman);
@@ -79,6 +72,7 @@ public class AppTest {
         finance.setTotal(total);
 
         financeService.insertOrUpdate(finance);
+        log.info("总计金额: {}", total.toString());
     }
 
     @Test
@@ -128,17 +122,6 @@ public class AppTest {
         Finance finance = financeService.selectById(1);
         BigDecimal total = finance.getTotal();
         System.out.println(total.toString());
-    }
-
-    @Autowired
-    private DapanUtil dapanUtil;
-
-    @Test
-    public void testStock() {
-        DapanData dapanData = dapanUtil.get("sh510500");
-        System.out.println(dapanData.getRate());
-        System.out.println(dapanData.getDot());
-        System.out.println(dapanData.getNowPic());
     }
 
     @Test

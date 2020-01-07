@@ -1,4 +1,4 @@
-package org.mz.common;
+package org.mz.common.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

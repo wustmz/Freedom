@@ -1,4 +1,4 @@
-package org.mz.common;
+package org.mz.common.utils;
 
 import java.text.NumberFormat;
 

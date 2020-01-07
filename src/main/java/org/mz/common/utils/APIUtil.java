@@ -1,4 +1,4 @@
-package org.mz.common;
+package org.mz.common.utils;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
