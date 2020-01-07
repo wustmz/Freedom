@@ -58,6 +58,11 @@ public class Finance implements Serializable {
 
     private BigDecimal total;
 
+    /**
+     * 结余
+     */
+    private BigDecimal surplus;
+
     @TableField(fill = INSERT)
     private Date createTime;
 

@@ -35,22 +35,35 @@ public class AppTest {
     private FundTxMapper fundTxMapper;
 
 
+    private BigDecimal getSurplus() {
+        BigDecimal cash = BigDecimal.valueOf(20209.38 + 2000 + 4462.38);
+
+        BigDecimal huabei = BigDecimal.valueOf(15000 - 14446.17);
+        BigDecimal baitiao = BigDecimal.valueOf(2022.02);
+        BigDecimal zhaoshang = BigDecimal.valueOf(3270 + 5551.68);
+        BigDecimal zhongxin = BigDecimal.valueOf(6809.94);
+
+        //结余
+        return cash.subtract(huabei).subtract(baitiao).subtract(zhaoshang).subtract(zhongxin);
+    }
+
+
     @Test
     public void testFinanceSave() {
         //资产
-        BigDecimal qieman = new BigDecimal("49607.02");
-        BigDecimal alipay = new BigDecimal("4145.05");
-        BigDecimal wechat = new BigDecimal("1950.01");
-        BigDecimal bank = new BigDecimal("13548.05");
-        BigDecimal stock = new BigDecimal("1009.7");
-        BigDecimal dept = new BigDecimal(20000 + 10000);//别人欠我的
+        BigDecimal qieman = new BigDecimal("51834.35");
+        BigDecimal alipay = new BigDecimal("4462.38");
+        BigDecimal wechat = new BigDecimal("89.66");
+        BigDecimal bank = new BigDecimal("21009.38");
+        BigDecimal stock = new BigDecimal("2040.23");
+        BigDecimal dept = new BigDecimal(20000 + 2000);//别人欠我的
         //信用贷
-        BigDecimal loan = new BigDecimal(3270 * 4);
+        BigDecimal loan = new BigDecimal(3270 * 3);
         //消费贷
-        BigDecimal huabei = BigDecimal.valueOf(15000 - 14360.04);
-        BigDecimal baitiao = new BigDecimal("3661.52");
-        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 11156.19);
-        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 21361.78);
+        BigDecimal huabei = BigDecimal.valueOf(15000 - 14446.17);
+        BigDecimal baitiao = new BigDecimal("15126.95");
+        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 13403.8);
+        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 16408.41);
 
         Finance finance = new Finance();
         finance.setQieman(qieman);
@@ -65,6 +78,7 @@ public class AppTest {
         finance.setBaitiao(baitiao);
         finance.setZhaoshang(zhaoshang);
         finance.setZhongxin(zhongxin);
+        finance.setSurplus(this.getSurplus());
 
         BigDecimal total = qieman
                 .add(alipay).add(wechat).add(bank).add(stock).add(dept)
@@ -73,55 +87,6 @@ public class AppTest {
 
         financeService.insertOrUpdate(finance);
         log.info("总计金额: {}", total.toString());
-    }
-
-    @Test
-    public void testFinanceUpdate() {
-
-        BigDecimal qieman = new BigDecimal(23715.08);
-        BigDecimal alipay = new BigDecimal(1229.19);
-        BigDecimal wechat = new BigDecimal(0.57);
-        BigDecimal bank = new BigDecimal(10197.52);
-        BigDecimal stock = new BigDecimal(22946);
-        BigDecimal dept = new BigDecimal(35000 - 3000);
-
-        BigDecimal loan = new BigDecimal(18000);
-        BigDecimal huabei = new BigDecimal(15000 - 14133.87);
-        BigDecimal baitiao = new BigDecimal(11985 - 9193);
-        BigDecimal zhaoshang = new BigDecimal(20000 - 14655.33);
-        BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
-
-        Finance finance = financeService.selectById(2);
-        finance.setQieman(qieman);
-        finance.setAlipay(alipay);
-        finance.setWechat(wechat);
-        finance.setBank(bank);
-        finance.setStock(stock);
-        finance.setDept(dept);
-
-        finance.setLoan(loan);
-        finance.setHuabei(huabei);
-        finance.setBaitiao(baitiao);
-        finance.setZhaoshang(zhaoshang);
-        finance.setZhongxin(zhongxin);
-
-        BigDecimal t1 = qieman.add(alipay).add(wechat).add(bank).add(stock).add(dept);
-        System.out.println("t1: " + t1);
-        BigDecimal t2 = loan.add(huabei).add(baitiao).add(zhaoshang).add(zhongxin);
-        System.out.println("t2: " + t2);
-        BigDecimal total = t1.subtract(t2);
-        finance.setTotal(total);
-
-        financeService.insertOrUpdate(finance);
-        System.out.println("total: " + financeService.selectById(2).getTotal());
-    }
-
-    @Test
-    public void testFinanceFind() {
-//        List<Finance> finances = financeService.findAll();
-        Finance finance = financeService.selectById(1);
-        BigDecimal total = finance.getTotal();
-        System.out.println(total.toString());
     }
 
     @Test
