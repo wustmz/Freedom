@@ -1,13 +1,11 @@
 package org.mz;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mz.common.utils.DateTimeUtils;
-import org.mz.common.utils.GsonUtil;
-import org.mz.common.utils.MathUtil;
-import org.mz.common.utils.XirrUtils;
+import org.mz.common.utils.*;
 import org.mz.entity.Finance;
 import org.mz.entity.FundTx;
 import org.mz.mapper.FundTxMapper;
@@ -15,6 +13,7 @@ import org.mz.service.FinanceService;
 import org.mz.service.FundTxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -35,17 +34,17 @@ public class AppTest {
     private FundTxMapper fundTxMapper;
 
 
-    private static final BigDecimal wechat = new BigDecimal("2461.71");
-    private static final BigDecimal bank = new BigDecimal("49.75");
-    private static final BigDecimal yuebao = BigDecimal.valueOf(127.86 + 4097.6);
+    private static final BigDecimal wechat = new BigDecimal("401");
+    private static final BigDecimal bank = new BigDecimal("14925");
+    private static final BigDecimal yuebao = BigDecimal.valueOf(2000);
 
     private BigDecimal getSurplus() {
         BigDecimal cash = wechat.add(bank).add(yuebao);
 
-        BigDecimal huabei = BigDecimal.valueOf(0);
-        BigDecimal baitiao = BigDecimal.valueOf(0);
-        BigDecimal zhaoshang = BigDecimal.valueOf(0);
-        BigDecimal zhongxin = BigDecimal.valueOf(0);
+        BigDecimal huabei = BigDecimal.valueOf(21000 - 19004.05);
+        BigDecimal baitiao = BigDecimal.valueOf(1272.25);
+        BigDecimal zhaoshang = BigDecimal.valueOf(4881.83 + 3270);
+        BigDecimal zhongxin = BigDecimal.valueOf(2040.44);
 
         //结余
         return cash.subtract(huabei).subtract(baitiao).subtract(zhaoshang).subtract(zhongxin);
@@ -55,16 +54,16 @@ public class AppTest {
     @Test
     public void testFinanceSave() {
         //资产
-        BigDecimal qieman = new BigDecimal("52266.51");
-        BigDecimal stock = new BigDecimal("2022.60");
-        BigDecimal dept = new BigDecimal(20000 + 12000);//别人欠我的
+        BigDecimal qieman = new BigDecimal("50969.51");
+        BigDecimal stock = new BigDecimal("6327.9");
+        BigDecimal dept = new BigDecimal(20000 + 12000 + 2400);//别人欠我的
         //信用贷
-        BigDecimal loan = new BigDecimal(3270 * 3);
+        BigDecimal loan = new BigDecimal(3270 * 2);
         //消费贷
-        BigDecimal huabei = BigDecimal.valueOf(15000 - 13003);
-        BigDecimal baitiao = new BigDecimal("15126.95");
-        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 18578.3);
-        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 22551.7);
+        BigDecimal huabei = BigDecimal.valueOf(21000 - 19004.05);
+        BigDecimal baitiao = new BigDecimal("13104.93");
+        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 16107.30);
+        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 21839.93);
 
         Finance finance = new Finance();
         finance.setQieman(qieman);
@@ -184,6 +183,19 @@ public class AppTest {
         BigDecimal b1 = new BigDecimal(5);
         BigDecimal b2 = new BigDecimal(3);
         System.out.println(b1.subtract(b2));
+    }
+
+    @Test
+    public void testE() {
+        Map<String, String> fieldUpdateSource = new HashMap<>();
+        String updateSourceRecord = "{\"unitNet\":\"crawler_ppwdb\",\"productCode\":\"crawler_ppwdb\",\"updateSource\":\"crawler_ppwdb\",\"isvalid\":\"crawler_ppwdb\",\"accNet\":\"crawler_ppwdb\",\"adjustedNet\":\"crawler_ppwdb\",\"class\":\"crawler_ppwdb\",\"pubDate\":\"crawler_ppwdb\",\"dataSource\":\"crawler_ppwdb\",\"productName\":\"crawler_ppwdb\",\"initialUnitValue\":\"crawler_ppwdb\",\"primaryKey\":\"crawler_ppwdb\"}";
+        fieldUpdateSource.putAll(JsonUtils.parse(updateSourceRecord, JsonUtils.constructParametricType(Map.class, String.class, String.class)));
+        log.info("测试：{}", JSON.toJSONString(fieldUpdateSource));
+    }
+
+    @Test
+    public void testHttp() {
+        log.info("是否相等：{}", HttpMethod.GET.name().equals("GET"));
     }
 
 }
