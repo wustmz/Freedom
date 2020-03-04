@@ -34,36 +34,41 @@ public class AppTest {
     private FundTxMapper fundTxMapper;
 
 
-    private static final BigDecimal wechat = new BigDecimal("401");
-    private static final BigDecimal bank = new BigDecimal("14925");
-    private static final BigDecimal yuebao = BigDecimal.valueOf(2000);
+    private static final BigDecimal wechat = new BigDecimal("0");
+    private static final BigDecimal bank = BigDecimal.valueOf(17741.34 + 4349.5 + 407.07 + 5370.6 + 12000);
+    private static final BigDecimal yuebao = BigDecimal.valueOf(0);
 
     private BigDecimal getSurplus() {
         BigDecimal cash = wechat.add(bank).add(yuebao);
 
-        BigDecimal huabei = BigDecimal.valueOf(21000 - 19004.05);
-        BigDecimal baitiao = BigDecimal.valueOf(1272.25);
-        BigDecimal zhaoshang = BigDecimal.valueOf(4881.83 + 3270);
-        BigDecimal zhongxin = BigDecimal.valueOf(2040.44);
+        BigDecimal huabei = BigDecimal.valueOf(5299 + 356);//20
+        BigDecimal zhongxin = BigDecimal.valueOf(16356.88);//22
+        BigDecimal zhaoshang = BigDecimal.valueOf(15586.83 + 3270);//25
+        BigDecimal baitiao = BigDecimal.valueOf(1272.25);//30
 
         //结余
         return cash.subtract(huabei).subtract(baitiao).subtract(zhaoshang).subtract(zhongxin);
+    }
+
+    @Test
+    public void testSurplus() {
+        log.info("现金结余：{}", this.getSurplus());
     }
 
 
     @Test
     public void testFinanceSave() {
         //资产
-        BigDecimal qieman = new BigDecimal("50969.51");
-        BigDecimal stock = new BigDecimal("6327.9");
-        BigDecimal dept = new BigDecimal(20000 + 12000 + 2400);//别人欠我的
+        BigDecimal qieman = new BigDecimal("61796.39");
+        BigDecimal stock = new BigDecimal("15490.7");
+        BigDecimal dept = new BigDecimal(20000 + 12000 + 2400 + 15000);//别人欠我的
         //信用贷
-        BigDecimal loan = new BigDecimal(3270 * 2);
+        BigDecimal loan = new BigDecimal(3270);
         //消费贷
-        BigDecimal huabei = BigDecimal.valueOf(21000 - 19004.05);
-        BigDecimal baitiao = new BigDecimal("13104.93");
-        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 16107.30);
-        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 21839.93);
+        BigDecimal huabei = BigDecimal.valueOf(5614.56);
+        BigDecimal baitiao = new BigDecimal("11832.68");
+        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 7088.95);
+        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 8764.99);
 
         Finance finance = new Finance();
         finance.setQieman(qieman);
