@@ -1,24 +1,25 @@
 package org.mz;
 
+import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.decampo.xirr.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mz.common.*;
-import org.mz.entity.DapanData;
+import org.mz.common.utils.*;
 import org.mz.entity.Finance;
 import org.mz.entity.FundTx;
-import org.mz.entity.MQTest;
 import org.mz.mapper.FundTxMapper;
 import org.mz.service.FinanceService;
 import org.mz.service.FundTxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AppTest {
@@ -32,36 +33,46 @@ public class AppTest {
     @Autowired
     private FundTxMapper fundTxMapper;
 
-    @Autowired
-    private RestTemplate restTemplate;
 
-    @Autowired
-    private MQTest mqTest;
+    private static final BigDecimal wechat = new BigDecimal("0");
+    private static final BigDecimal bank = BigDecimal.valueOf(17741.34 + 4349.5 + 407.07 + 5370.6 + 12000);
+    private static final BigDecimal yuebao = BigDecimal.valueOf(0);
 
-    @Test
-    public void testMq() {
-        mqTest.sendMqExchange();
+    private BigDecimal getSurplus() {
+        BigDecimal cash = wechat.add(bank).add(yuebao);
+
+        BigDecimal huabei = BigDecimal.valueOf(5299 + 356);//20
+        BigDecimal zhongxin = BigDecimal.valueOf(16356.88);//22
+        BigDecimal zhaoshang = BigDecimal.valueOf(15586.83 + 3270);//25
+        BigDecimal baitiao = BigDecimal.valueOf(1272.25);//30
+
+        //结余
+        return cash.subtract(huabei).subtract(baitiao).subtract(zhaoshang).subtract(zhongxin);
     }
 
     @Test
+    public void testSurplus() {
+        log.info("现金结余：{}", this.getSurplus());
+    }
+
+
+    @Test
     public void testFinanceSave() {
-
-        BigDecimal qieman = new BigDecimal(23322.97);
-        BigDecimal alipay = new BigDecimal(1292.62);
-        BigDecimal wechat = new BigDecimal(0.57);
-        BigDecimal bank = new BigDecimal(15524.42 + 7107.50 - 16000);
-        BigDecimal stock = new BigDecimal(22348);
-        BigDecimal dept = new BigDecimal(35000);
-
-        BigDecimal loan = new BigDecimal(18000);
-        BigDecimal huabei = new BigDecimal(15000 - 14290.89);
-        BigDecimal baitiao = new BigDecimal(11965 - 9173);
-        BigDecimal zhaoshang = new BigDecimal(20000 - 15165.93);
-        BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
+        //资产
+        BigDecimal qieman = new BigDecimal("61796.39");
+        BigDecimal stock = new BigDecimal("15490.7");
+        BigDecimal dept = new BigDecimal(20000 + 12000 + 2400 + 15000);//别人欠我的
+        //信用贷
+        BigDecimal loan = new BigDecimal(3270);
+        //消费贷
+        BigDecimal huabei = BigDecimal.valueOf(5614.56);
+        BigDecimal baitiao = new BigDecimal("11832.68");
+        BigDecimal zhaoshang = BigDecimal.valueOf(32000 - 7088.95);
+        BigDecimal zhongxin = BigDecimal.valueOf(27500 - 8764.99);
 
         Finance finance = new Finance();
         finance.setQieman(qieman);
-        finance.setAlipay(alipay);
+        finance.setAlipay(yuebao);
         finance.setWechat(wechat);
         finance.setBank(bank);
         finance.setStock(stock);
@@ -72,73 +83,15 @@ public class AppTest {
         finance.setBaitiao(baitiao);
         finance.setZhaoshang(zhaoshang);
         finance.setZhongxin(zhongxin);
+        finance.setSurplus(this.getSurplus());
 
         BigDecimal total = qieman
-                .add(alipay).add(wechat).add(bank).add(stock).add(dept)
+                .add(yuebao).add(wechat).add(bank).add(stock).add(dept)
                 .subtract(loan).subtract(huabei).subtract(baitiao).subtract(zhaoshang).subtract(zhongxin);
         finance.setTotal(total);
 
         financeService.insertOrUpdate(finance);
-    }
-
-    @Test
-    public void testFinanceUpdate() {
-
-        BigDecimal qieman = new BigDecimal(23715.08);
-        BigDecimal alipay = new BigDecimal(1229.19);
-        BigDecimal wechat = new BigDecimal(0.57);
-        BigDecimal bank = new BigDecimal(10197.52);
-        BigDecimal stock = new BigDecimal(22946);
-        BigDecimal dept = new BigDecimal(35000 - 3000);
-
-        BigDecimal loan = new BigDecimal(18000);
-        BigDecimal huabei = new BigDecimal(15000 - 14133.87);
-        BigDecimal baitiao = new BigDecimal(11985 - 9193);
-        BigDecimal zhaoshang = new BigDecimal(20000 - 14655.33);
-        BigDecimal zhongxin = new BigDecimal(27500 - 6366.61);
-
-        Finance finance = financeService.selectById(2);
-        finance.setQieman(qieman);
-        finance.setAlipay(alipay);
-        finance.setWechat(wechat);
-        finance.setBank(bank);
-        finance.setStock(stock);
-        finance.setDept(dept);
-
-        finance.setLoan(loan);
-        finance.setHuabei(huabei);
-        finance.setBaitiao(baitiao);
-        finance.setZhaoshang(zhaoshang);
-        finance.setZhongxin(zhongxin);
-
-        BigDecimal t1 = qieman.add(alipay).add(wechat).add(bank).add(stock).add(dept);
-        System.out.println("t1: " + t1);
-        BigDecimal t2 = loan.add(huabei).add(baitiao).add(zhaoshang).add(zhongxin);
-        System.out.println("t2: " + t2);
-        BigDecimal total = t1.subtract(t2);
-        finance.setTotal(total);
-
-        financeService.insertOrUpdate(finance);
-        System.out.println("total: " + financeService.selectById(2).getTotal());
-    }
-
-    @Test
-    public void testFinanceFind() {
-//        List<Finance> finances = financeService.findAll();
-        Finance finance = financeService.selectById(1);
-        BigDecimal total = finance.getTotal();
-        System.out.println(total.toString());
-    }
-
-    @Autowired
-    private DapanUtil dapanUtil;
-
-    @Test
-    public void testStock() {
-        DapanData dapanData = dapanUtil.get("sh510500");
-        System.out.println(dapanData.getRate());
-        System.out.println(dapanData.getDot());
-        System.out.println(dapanData.getNowPic());
+        log.info("总计金额: {}", total.toString());
     }
 
     @Test
@@ -235,6 +188,19 @@ public class AppTest {
         BigDecimal b1 = new BigDecimal(5);
         BigDecimal b2 = new BigDecimal(3);
         System.out.println(b1.subtract(b2));
+    }
+
+    @Test
+    public void testE() {
+        Map<String, String> fieldUpdateSource = new HashMap<>();
+        String updateSourceRecord = "{\"unitNet\":\"crawler_ppwdb\",\"productCode\":\"crawler_ppwdb\",\"updateSource\":\"crawler_ppwdb\",\"isvalid\":\"crawler_ppwdb\",\"accNet\":\"crawler_ppwdb\",\"adjustedNet\":\"crawler_ppwdb\",\"class\":\"crawler_ppwdb\",\"pubDate\":\"crawler_ppwdb\",\"dataSource\":\"crawler_ppwdb\",\"productName\":\"crawler_ppwdb\",\"initialUnitValue\":\"crawler_ppwdb\",\"primaryKey\":\"crawler_ppwdb\"}";
+        fieldUpdateSource.putAll(JsonUtils.parse(updateSourceRecord, JsonUtils.constructParametricType(Map.class, String.class, String.class)));
+        log.info("测试：{}", JSON.toJSONString(fieldUpdateSource));
+    }
+
+    @Test
+    public void testHttp() {
+        log.info("是否相等：{}", HttpMethod.GET.name().equals("GET"));
     }
 
 }
