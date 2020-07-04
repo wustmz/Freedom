@@ -1,4 +1,4 @@
-package org.mz.algorithms.binaryTree.lruCache;
+package org.mz.algorithms.frequent.lruCache;
 
 import java.util.HashMap;
 import java.util.Map;
