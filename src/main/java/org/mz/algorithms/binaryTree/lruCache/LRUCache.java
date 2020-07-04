@@ -3,6 +3,9 @@ package org.mz.algorithms.binaryTree.lruCache;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 146.LRU缓存机制
+ */
 public class LRUCache {
 
     private Map<Integer, DLinkedNode> cache = new HashMap<>();
