@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.mz</groupId>
-    <artifactId>fow</artifactId>
+    <artifactId>Freedom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>freedom</name>
     <description>finance project</description>
