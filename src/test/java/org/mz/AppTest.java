@@ -13,7 +13,7 @@ public class AppTest {
 
     @Test
     public void test1() {
-        log.info("hello");
+        log.info("double git config");
     }
 
 }
