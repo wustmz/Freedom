@@ -10,6 +10,8 @@
 
     <modules>
         <module>algorithms</module>
+        <module>juc</module>
+        <module>jvm</module>
     </modules>
 
     <parent>
