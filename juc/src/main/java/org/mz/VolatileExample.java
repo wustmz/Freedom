@@ -1,3 +1,5 @@
+package org.mz;
+
 /**
  * @Author steve.mei
  * @Version VolatileExample,  2020/10/9 11:05 下午
@@ -16,7 +18,7 @@ public class VolatileExample {
     }
 
     public void reader() {
-        if (v == true) {
+        if (v) {
             System.out.println(x);
         }
     }
@@ -31,9 +33,9 @@ public class VolatileExample {
     public static void main(String[] args) {
         VolatileExample volatileExample = new VolatileExample();
         //创建线程1，写操作
-        Thread thread1 = new Thread(() -> volatileExample.writer());
+        Thread thread1 = new Thread(volatileExample::writer);
         //创建线程2，读操作
-        Thread thread2 = new Thread(() -> volatileExample.reader());
+        Thread thread2 = new Thread(volatileExample::reader);
         thread1.start();
         thread2.start();
     }
